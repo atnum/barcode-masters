@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: Barcode Masters
+Implementation-Version: 1.0
+Built-By: Admin
+Implementation-Vendor-Id: org.joinfaces
+Build-Jdk: 1.8.0_74
+Implementation-URL: http://persapiens.org/barcode-masters
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: JoinFaces
+

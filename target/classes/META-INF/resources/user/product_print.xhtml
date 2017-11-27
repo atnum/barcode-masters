@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>${title}</title>
+	<meta name="viewport" content="width=device-width" />
+
+</h:head>
+<h:body style="padding: 60px;">
+	<ui:composition template="/template/common/commonLayout.xhtml">
+
+		<ui:define name="content">
+			<p:growl id="messages" />
+
+			<b:container>
+				<b:jumbotron>
+					<h:form>
+
+						<p:commandButton value="Print" icon="fa fa-print">
+							<f:ajax execute="@this" />
+							<p:printer target="panelBill" />
+						</p:commandButton>
+						<br />
+						<br />
+
+						<!-- 						<p:dataScroller id="panelBill"
+							value="#{productController.products}" var="product"
+							chunkSize="10">
+							<p:panelGrid columns="3" layout="grid">
+								<p:barcode value="#{product.name}" type="code128" width="200px;"
+									height="200px;" />
+							</p:panelGrid>
+						</p:dataScroller> -->
+
+						<p:dataGrid id="panelBill" var="product"
+							value="#{productController.products}" columns="4" rows="1000">
+							<div align="center">
+							<p:barcode value="#{product.barcode}"
+								type="#{genericController.barcodeType}" width="200px;"
+								height="200px;" />
+								<br/>
+								#{product.name}
+							</div>
+						</p:dataGrid>
+
+					</h:form>
+				</b:jumbotron>
+			</b:container>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

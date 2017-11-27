@@ -15,6 +15,7 @@ import com.anup.entity.PickDirective;
 import com.anup.repository.FacilityRepository;
 import com.anup.repository.PDRepository;
 
+import fr.w3blog.zpl.model.ZebraUtils;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -97,11 +98,11 @@ public class PDService {
 
 			String ip = (String) first;
 
-			// try {
-			// ZebraUtils.printZpl(zpl ,ip ,9100);
-			// }catch(Exception e) {
-			// e.printStackTrace();
-			// }
+			 try {
+			 ZebraUtils.printZpl(zpl ,ip ,9100);
+			 }catch(Exception e) {
+			 e.printStackTrace();
+			 }
 		}
 	}
 }

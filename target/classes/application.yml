@@ -1,0 +1,35 @@
+jsf:
+  PROJECT_STAGE: Production
+  FACELETS_LIBRARIES: /tags/tags.taglib.xml
+  primefaces:
+    theme: black-tie
+joinfaces:
+  version: 2.4.1
+spring-boot:
+  version: 1.5.7.RELEASE
+tomcat:
+  version: 8.5.20
+jetty:
+  version: 9.4.6.v20170531
+undertow:
+  version: 1.4.20.Final
+cdi:
+  version: 1.2
+mojarra:
+  version: 2.2.14
+myfaces:
+  version: 2.2.12
+omnifaces:
+  version: 1.14
+angularfaces:
+  version: 2.1.12
+primefaces:
+  version: 6.1
+primefaces-extensions:
+  version: 6.1.1
+bootsfaces:
+  version: 1.1.3
+butterfaces:
+  version: 2.1.21
+richfaces:
+  version: 4.5.17.Final

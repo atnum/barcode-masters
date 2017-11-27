@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:body style="padding: 60px;">
+	<ui:composition>
+
+		<b:navBar brand="Barcode Masters"
+			brand-img="#{resource['static/images/logo3.png']}"
+			brandHref="#{request.contextPath}/user/welcome.jsf"
+			fixed="top" inverse="true" style="background-color: #383544;">
+			<b:navbarLinks>
+				<b:navLink value="Print Products"
+					href="#{request.contextPath}/user/index.jsf"></b:navLink>
+				<b:navLink value="Generic Labels"
+					href="#{request.contextPath}/user/generic.jsf"></b:navLink>
+
+			</b:navbarLinks>
+			<b:navbarLinks pull="right" styleClass="hidden-xs">
+				<b:navLink value="Logout" href="#{request.contextPath}/logout"
+					iconAwesome="fa-sign-out" iconAlign="right"></b:navLink>
+				<b:dropMenu value="Help" iconAwesome="fa-question-circle-o">
+					<b:navLink value="Documentation"
+						href="#{request.contextPath}/user/documentation.jsf" />
+					<b:navLink></b:navLink>
+					<b:navLink header="About Section"></b:navLink>
+					<b:navLink value="About" onclick="PF('dlg3').show();" href="">
+					</b:navLink>
+					<b:navLink></b:navLink>
+				</b:dropMenu>
+				<b:navLink value="Settings"
+					href="#{request.contextPath}/user/settings.jsf"
+					iconAwesome="fa-cog" iconAlign="right"></b:navLink>
+			</b:navbarLinks>
+		</b:navBar>
+
+		<p:dialog header="About" widgetVar="dlg3" showEffect="explode"
+			hideEffect="bounce" height="290px" width="395px">
+
+		</p:dialog>
+
+	</ui:composition>
+</h:body>
+</html>
+
+

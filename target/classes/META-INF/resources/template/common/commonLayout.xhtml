@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+	<title>Barcode-Masters</title>
+	<meta name="author" content="The Author"></meta>
+	<!-- <link rel="stylesheet" href="resources/css/bootstrap.min.css" /> -->
+
+	<link href='https://fonts.googleapis.com/css?family=Andika|Faster One'
+		rel='stylesheet' />
+	<style type="text/css">
+body {
+	background-image: url("#{resource['static/images/backg.jpg']}");
+	font-family: 'Andika';
+	font-size: 16px;
+	font-weight: 200;
+}
+
+h2 {
+	font-family: 'Faster One';
+	font-size: 32px;
+	font-color: red;
+}
+
+.ui-growl {
+	right: 20px;
+	top: 10%;
+	/* bottom: 60px; */
+	left: 65%;
+}
+
+.ui-dialog {
+	background-image: url("#{resource['static/images/About.PNG']}");
+}
+
+.ui-dialog-titlebar, .ui-dialog-title-dialog {
+	background-color: #555d60;
+}
+
+.ui-dialog-title {
+	/* color : black; */
+	
+}
+
+.myTable {
+	text-align: center;
+}
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</h:head>
+
+<h:body style="padding: 60px;">
+
+	<div id="page">
+
+		<div id="header">
+			<ui:insert name="header">
+				<ui:include
+					src="/template/common/commonHeader.xhtml" />
+			</ui:insert>
+		</div>
+
+		<div id="content">
+			<ui:insert name="content">
+				<ui:include
+					src="/template/common/commonContent.xhtml" />
+			</ui:insert>
+		</div>
+
+		<div id="footer">
+			<ui:insert name="footer">
+				<ui:include
+					src="/template/common/commonFooter.xhtml" />
+			</ui:insert>
+		</div>
+
+	</div>
+
+</h:body>
+
+</html>

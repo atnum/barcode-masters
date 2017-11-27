@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>${title}</title>
+	<meta name="viewport" content="width=device-width" />
+
+</h:head>
+<h:body style="padding: 60px;">
+
+	<ui:composition template="/template/common/commonLayout.xhtml">
+
+		<ui:define name="content">
+
+			<p:messages globalOnly="true" />
+
+			<p:growl id="messages" />
+
+			<b:container>
+
+				<b:jumbotron>
+					<b:column span="6">
+						<h:form id="searchForm">
+							<p:panelGrid>
+								<p:autoComplete id="containerId"
+									value="#{genericController.containerId}"
+									itemLabel="#{genericController.containerId}"
+									itemValue="#{genericController.containerId}"
+									completeMethod="#{genericController.search}"
+									valueChangeListener="#{genericController.changed}"
+									immediate="true" inputStyle="width: 250px; height:30px"
+									placeholder="Enter Container Id to Search" required="true"
+									requiredMessage="Please Enter Container ID to start..."
+									onselect="#{genericController.search(genericController.containerId)}"
+									cacheTimeout="2" />
+								<p:commandButton value="Search" update="genericTable searchForm"
+									action="#{genericController.search(genericController.containerId)}"
+									icon="fa fa-search" />
+							</p:panelGrid>
+
+						</h:form>
+
+						<br />
+
+						<h:form id="saveBatchForm">
+							<p:focus />
+
+							<p:panelGrid columns="2"> 
+				
+				Facility ID:
+								<p:selectOneMenu value="#{genericController.generic.facilityId}">
+									<f:selectItems value="#{genericController.facility}" />
+								</p:selectOneMenu>
+					
+					Number of Containers:
+		<p:inputText value="#{genericController.containerQty}" required="true"
+									requiredMessage="Container Qty Cannot be Null!"
+									placeholder="No. Of Containers" />
+							</p:panelGrid>
+							<br />
+							<!-- Adding Refresh Button -->
+
+							<!-- End Refresh Button -->
+
+							<p:commandButton value="Save Bulk"
+								action="#{genericController.saveBatch()}" icon="fa fa-upload"
+								update="genericForm :genericTable :messages saveBatchForm" />
+						</h:form>
+					</b:column>
+					<br />
+					<br />
+
+					<h:form id="genericForm">
+
+						<p:focus />
+
+						<p:panelGrid columns="2">
+		Facility ID:
+		<!-- <p:inputText value="#{genericController.generic.facilityId}" /> -->
+							<p:selectOneMenu value="#{genericController.generic.facilityId}">
+								<f:selectItems value="#{genericController.facility}" />
+							</p:selectOneMenu>
+		
+		Container ID:
+		<p:inputText value="#{genericController.generic.containerId}"
+								placeholder="Container ID" />
+						</p:panelGrid>
+						<br />
+
+						<p:commandButton value="Save" action="#{genericController.save()}"
+							icon="fa fa-save"
+							update="genericForm :genericTable :messages genericForm" />
+					</h:form>
+
+				</b:jumbotron>
+				<h:form>
+					<p:commandButton value="Print" icon="fa fa-print"
+						action="#{genericController.print(generic)}">
+					</p:commandButton>
+				</h:form>
+				<br />
+
+				<p:dataTable id="genericTable" var="generic" styleClass="myTable"
+					value="#{genericController.generics}" paginator="true" rows="4"
+					editable="true" reflow="true">
+
+					<p:column headerText="Facility Id">
+						<h:outputText value="#{generic.facilityId}"
+							filterMatchMode="contains" />
+					</p:column>
+
+
+					<p:column headerText="Print Group Label Nbr">
+						<h:outputText value="#{generic.printGroupLabelNbr}"
+							filterMatchMode="contains" />
+					</p:column>
+
+					<p:column headerText="Container Id">
+						<h:outputText value="#{generic.containerId}"
+							filterMatchMode="contains" />
+					</p:column>
+
+					<p:column headerText="Barcode">
+						<p:barcode value="#{generic.containerId}"
+							type="#{genericController.barcodeType}" width="125px;"
+							height="60px;" />
+					</p:column>
+
+				</p:dataTable>
+				<input type="hidden" name="${_csrf.parameterName}"
+					value="${_csrf.token}" />
+			</b:container>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>${title}</title>
+	<meta name="viewport" content="width=device-width" />
+
+</h:head>
+<h:body style="padding: 60px;">
+	<ui:composition template="/template/common/commonLayout.xhtml">
+
+		<ui:define name="content">
+			<p:growl id="messages" />
+
+			<b:jumbotron>
+				<b:container>
+					<h:form>
+						<p:focus />
+
+						<p:panelGrid columns="6">
+		
+		Barcode Type: 	 
+		<p:selectOneMenu value="#{genericController.barcodeType}">
+
+								<f:selectItem itemLabel="Code128" itemValue="code128" />
+								<f:selectItem itemLabel="Codabar" itemValue="codabar" />
+								<f:selectItem itemLabel="Code39" itemValue="code39" />
+								<f:selectItem itemLabel="Interleaved 2 of 5" itemValue="int2of5" />
+								<f:selectItem itemLabel="EAN-8" itemValue="ean8" />
+								<f:selectItem itemLabel="EAN-13" itemValue="ean13" />
+								<f:selectItem itemLabel="UPC-A (PNG)" itemValue="upca" />
+								<f:selectItem itemLabel="UPC-E (Vertical)" itemValue="upce" />
+								<f:selectItem itemLabel="PDF417" itemValue="pdf417" />
+								<f:selectItem itemLabel="DataMatrix" itemValue="datamatrix" />
+								<f:selectItem itemLabel="Postnet" itemValue="postnet" />
+								<f:selectItem itemLabel="QR" itemValue="qr" />
+								<p:ajax event="change" />
+							</p:selectOneMenu>
+
+							<b:navLink value="New User Register"
+								href="#{request.contextPath}/register.jsf"
+								iconAwesome="fa-user-plus" />
+
+						</p:panelGrid>
+					</h:form>
+				</b:container>
+			</b:jumbotron>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
