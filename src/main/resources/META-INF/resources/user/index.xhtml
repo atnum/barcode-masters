@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+	<title>${title}</title>
+	<meta name="viewport" content="width=device-width" />
+
+</h:head>
+
+<h:body style="padding: 60px;">
+
+	<ui:composition template="/template/common/commonLayout.xhtml">
+
+		<ui:define name="content">
+
+			<p:messages globalOnly="true" />
+
+			<p:growl id="messages" />
+
+
+			<b:container>
+
+				<b:jumbotron>
+
+					<h:form id="searchForm">
+						<h:panelGrid columns="5" cellpadding="8">
+							<p:autoComplete id="name" value="#{productController.name}"
+								itemLabel="#{productController.name}"
+								itemValue="#{productController.name}"
+								completeMethod="#{productController.search}"
+								valueChangeListener="#{productController.changed}"
+								immediate="true" inputStyle="width: 250px; height:30px"
+								placeholder="Enter Item ID to Search" required="true"
+								requiredMessage="Item ID or Name or Description to start..."
+								onselect="#{productController.search(productController.name)}"
+								cacheTimeout="2" />
+							<p:commandButton value="Search" update="productTable searchForm"
+								action="#{productController.search(productController.name)}"
+								icon="fa fa-search" />
+						</h:panelGrid>
+						<br />
+						<br />
+					</h:form>
+
+					<h:form id="saveBatchForm">
+						<p:focus />
+
+						<p:panelGrid columns="2"> 
+				
+				    Item ID:
+								<p:inputText id="id" value="#{productController.productId}"
+								required="true" requiredMessage="Item Id Cannot be Null!"
+								placeholder="Item Id" />
+					
+					Number of Qty.:
+		<p:inputText id="noOfQty" value="#{productController.noOfQty}"
+								required="true" requiredMessage="Number Of Qty Cannot be Null!"
+								placeholder="No. Of Qty" />
+						</p:panelGrid>
+						<br />
+
+						<p:commandButton value="Print Bulk"
+							action="#{productController.printByItem(id)}" icon="fa fa-upload"
+							update="saveBatchForm :productTable :messages saveBatchForm" />
+					</h:form>
+				</b:jumbotron>
+				<h:form>
+					<p:commandButton value="Print" icon="fa fa-print"
+						action="#{productController.print(product)}" />
+				</h:form>
+				<br />
+
+				<p:dataTable id="productTable" var="product" styleClass="myTable"
+					value="#{productController.products}" paginator="true" rows="4"
+					editable="true" reflow="true">
+					<p:column headerText="Product Id">
+						<h:outputText value="#{product.id}" />
+					</p:column>
+
+					<p:column headerText="Product Name">
+						<h:outputText value="#{product.name}" />
+					</p:column>
+
+					<p:column headerText="Product Barcode">
+						<p:barcode value="#{product.barcode}"
+							type="#{genericController.barcodeType}" width="100px;"
+							height="50px;" />
+					</p:column>
+
+					<p:column headerText="Description">
+						<h:outputText value="#{product.description}" />
+					</p:column>
+
+					<p:column headerText="Category">
+						<h:outputText value="#{product.category}" />
+					</p:column>
+
+					<p:column headerText="Product Price">
+						<h:outputText value="#{product.price}" />
+					</p:column>
+
+					<p:column headerText="Product Qty.">
+						<h:outputText value="#{product.qty}" />
+					</p:column>
+
+				</p:dataTable>
+				<input type="hidden" name="${_csrf.parameterName}"
+					value="${_csrf.token}" />
+			</b:container>
+		</ui:define>
+
+	</ui:composition>
+
+</h:body>
+</html>

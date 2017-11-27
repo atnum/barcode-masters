@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>${title}</title>
+	<meta name="viewport" content="width=device-width" />
+
+</h:head>
+
+<h:body style="padding: 60px;">
+	<ui:composition template="/template/common/commonLayout.xhtml">
+
+		<ui:define name="content">
+			<p:growl id="messages" />
+
+			<b:jumbotron>
+				<b:container>
+					<h2>Welcome to Barcode Masters #{genericController.username}!</h2>
+					<p>Barcode masters highly used in Retail and Distribution
+						Industry, Considering the rapidly growing importance of Barcodes
+						in today’s market, numerous Barcode Software products have been
+						offered by software companies that claim to serve as the backbone
+						of your business. But the Barcode Masters Software is one
+						single-stop solution to end all your worries as it helps in
+						controlling the instances of shoplifting and tracking items
+						meticulously.</p>
+					<p>
+						Barcode Masters supports <b>Code128, Code39,
+							Interleaved 2 of 5, Codabar, EAN-8, EAN-13, UPC-A (PNG), UPC-E
+							(Vertical), PDF417, DataMatrix, Postnet, QR</b> and many more.
+					</p>
+					<a
+						href="#{request.contextPath}/user/documentation.jsf"
+						class="btn btn-lg btn-info">More Details »</a>
+				</b:container>
+
+			</b:jumbotron>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

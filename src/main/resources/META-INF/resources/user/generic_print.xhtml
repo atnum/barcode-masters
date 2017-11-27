@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>${title}</title>
+	<meta name="viewport" content="width=device-width" />
+
+</h:head><h:head>
+	<title>${title}</title>
+</h:head>
+<h:body style="padding: 60px;">
+
+<ui:composition template="/template/common/commonLayout.xhtml">
+
+		<ui:define name="content">
+
+			<p:growl id="messages" />
+			<b:container>
+				<b:jumbotron>
+					<h:form>
+						<p:commandButton value="Print" icon="fa fa-print">
+							<f:ajax execute="@this" />
+							<p:printer target="panelBill" />
+						</p:commandButton>
+						<br />
+						<br />
+						<p:dataScroller id="panelBill"
+							value="#{genericController.generics}" var="generic"
+							chunkSize="10">
+							<h:panelGrid columns="2" style="width:100%"
+								columnClasses="logo,detail">
+								<p:barcode value="#{generic.containerId}"
+									type="#{genericController.barcodeType}" width="600px;"
+									height="300px;" />
+
+								<p:outputPanel>
+									<h:panelGrid columns="2" cellpadding="5">
+
+										<h3>Print Label Group
+											Number:#{generic.printGroupLabelNbr}</h3>
+
+										<h2>#{generic.facilityId}</h2>
+
+									</h:panelGrid>
+								</p:outputPanel>
+							</h:panelGrid>
+						</p:dataScroller>
+
+					</h:form>
+				</b:jumbotron>
+			</b:container>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

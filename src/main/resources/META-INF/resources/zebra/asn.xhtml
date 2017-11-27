@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>${title}</title>
+	<meta name="viewport" content="width=device-width" />
+
+</h:head>
+
+<h:body style="padding: 60px;">
+	<ui:composition template="/template/com_zebra/commonLayout.xhtml">
+
+		<ui:define name="content">
+			<p:growl id="messages" />
+
+			<b:jumbotron>
+				<b:container>
+					<b:column>
+						<h:form id="searchForm">
+							<p:panelGrid>
+								<p:autoComplete id="asn" value="#{asnController.asn}"
+									itemLabel="#{asnController.asn}"
+									itemValue="#{asnController.asn}"
+									completeMethod="#{asnController.search}"
+									valueChangeListener="#{genericController.changed}"
+									immediate="true" inputStyle="width: 200px; height:30px"
+									placeholder="Enter an ASN to search" required="true"
+									requiredMessage="Please Enter the ASN NBR to start..."
+									onselect="#{asnController.search(asnController.asn)}"
+									cacheTimeout="2" />
+								<p:commandButton value="Search" update="asnTable searchForm"
+									action="#{genericController.search(asnController.asn)}"
+									icon="fa fa-search" />
+							</p:panelGrid>
+
+						</h:form>
+
+						<br />
+						<br />
+						<h:form>
+							<p:commandButton value="Print" icon="fa fa-print"
+								action="#{asnController.print()}">
+							</p:commandButton>
+						</h:form>
+						<br />
+						<br />
+
+						<p:dataTable id="asnTable" var="generic" styleClass="myTable"
+							value="#{asnController.asnList}" paginator="true" rows="4"
+							editable="true" reflow="true">
+
+							<p:column headerText="ASN">
+								<h:outputText value="#{generic.asn_nbr}"
+									filterMatchMode="contains" />
+							</p:column>
+
+
+							<p:column headerText="Container ID">
+								<h:outputText value="#{generic.container_id}"
+									filterMatchMode="contains" />
+							</p:column>
+
+							<p:column headerText="PO NBR">
+								<h:outputText value="#{generic.po_nbr}"
+									filterMatchMode="contains" />
+							</p:column>
+							
+							<p:column headerText="Appt NBR">
+								<h:outputText value="#{generic.appt_nbr}"
+									filterMatchMode="contains" />
+							</p:column>
+
+							<p:column headerText="Dest ID">
+								<h:outputText value="#{generic.dest_id}"
+									filterMatchMode="contains" />
+							</p:column>
+
+							<p:column headerText="Item ID">
+								<h:outputText value="#{generic.item_id}"
+									filterMatchMode="contains" />
+							</p:column>
+
+							<p:column headerText="Unit Qty">
+								<h:outputText value="#{generic.unit_qty}"
+									filterMatchMode="contains" />
+							</p:column>
+
+							<p:column headerText="Rcvd Qty">
+								<h:outputText value="#{generic.rcvd_unit_qty}"
+									filterMatchMode="contains" />
+							</p:column>
+
+						</p:dataTable>
+						<input type="hidden" name="${_csrf.parameterName}"
+							value="${_csrf.token}" />
+					</b:column>
+				</b:container>
+
+			</b:jumbotron>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
