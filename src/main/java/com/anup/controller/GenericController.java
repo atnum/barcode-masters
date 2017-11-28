@@ -11,7 +11,6 @@ import javax.faces.event.ValueChangeEvent;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import com.anup.entity.ASN;
@@ -31,7 +30,7 @@ import lombok.Setter;
 
 //@ManagedBean
 //@SessionScoped
-@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
+@Scope(value = "session")
 // Spring-specific annotation
 @Component
 @Getter
