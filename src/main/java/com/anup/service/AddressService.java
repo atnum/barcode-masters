@@ -19,7 +19,7 @@ public class AddressService {
 		addressRepository.delete(id);
 	}
 	
-	public List<IPAddress> getAllAddress() {
+	public List<String> getAllAddress() {
 		return addressRepository.allIP();
 	}
 

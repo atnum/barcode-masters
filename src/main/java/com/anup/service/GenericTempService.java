@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.anup.entity.Generic;
 import com.anup.entity.GenericTemp;
-import com.anup.entity.IPAddress;
 import com.anup.repository.GenericRepository;
 import com.anup.repository.GenericTempRepository;
 import com.anup.repository.IPAddressRepository;
