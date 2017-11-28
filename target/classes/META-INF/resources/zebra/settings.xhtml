@@ -45,6 +45,10 @@
 								<f:selectItems value="#{genericController.addresses}" />
 								<p:ajax event="change" />
 							</p:selectOneMenu>
+							
+							<p:commandButton value="Save Printer" update=":messages"
+									action="#{genericController.setPrinter(genericController.ip)}"
+									icon="fa fa-save" />
 		
 							<b:navLink value="New User Register"
 								href="#{request.contextPath}/register.jsf"

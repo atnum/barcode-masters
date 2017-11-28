@@ -25,11 +25,14 @@ public class IPAddress {
 	private String printerName;
 
 	public String ip;
+	
+	@Column(name = "USER_FLAG")
+	public String USER_FLAG;
 
 	private int port;
 
 	@Column(name = "DEFAULT_IP")
-	private int defaultIp;
+	private int default_ip;
 
 	@Override
 	public String toString() {

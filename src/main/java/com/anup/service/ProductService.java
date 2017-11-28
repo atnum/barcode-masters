@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.anup.entity.Product;
-import com.anup.entity.ProductTemp;
 import com.anup.repository.ProductRepository;
 
 @Service

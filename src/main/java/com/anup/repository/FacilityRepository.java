@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.anup.entity.Facility;
-import com.anup.entity.PickDirective;
 
 public interface FacilityRepository extends JpaRepository<Facility, String> {
 

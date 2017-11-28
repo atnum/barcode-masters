@@ -23,7 +23,9 @@ import com.anup.repository.UserRepository;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Autowired
-	private UserRepository userRepository ;     
+	private UserRepository userRepository ;  
+	
+	public static com.anup.entity.User user = null;
              
 	
 	@SuppressWarnings("unused")
@@ -31,7 +33,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
 	
         System.out.println("username is:-" + username);
-              com.anup.entity.User user = userRepository.findByUsername(username);
+             user = userRepository.findByUsername(username);
               
                 System.out.println("Password From Detailservice is:-" + user.getPassword().toString());
                  System.out.println(user.toString());

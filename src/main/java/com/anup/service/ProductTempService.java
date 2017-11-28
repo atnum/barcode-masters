@@ -2,7 +2,6 @@ package com.anup.service;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +19,6 @@ public class ProductTempService {
 	@Autowired
 	private ProductTempRepository productTempRepository;
 	
-	@Autowired
-	private EntityManager em;
-
 	@Autowired
 	private ProductRepository productRepository;
 

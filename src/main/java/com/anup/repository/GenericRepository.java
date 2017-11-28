@@ -17,7 +17,7 @@ public interface GenericRepository extends JpaRepository<Generic, Long> {
 	@Query(value = "SELECT c.container_id from XX_GENERIC_LABELS c where c.container_id = ?1", nativeQuery = true)
 	String isContainerIdExist(String containerId);
 
-    @Query(value = "select '10000000' || RETURNS_CONT_SEQ.nextval from dual", nativeQuery = true) 
+    @Query(value = "select '10000' || RANDOM_CONTAINER_SEQ.nextval from dual", nativeQuery = true) 
 	//@Query(value = "select 1", nativeQuery = true) 
 	String randomContainer();
 

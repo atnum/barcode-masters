@@ -21,18 +21,18 @@
 					<b:column>
 						<h:form id="searchForm">
 							<p:panelGrid>
-								<p:autoComplete id="asn" value="#{asnController.asn}"
-									itemLabel="#{asnController.asn}"
-									itemValue="#{asnController.asn}"
-									completeMethod="#{asnController.search}"
-									valueChangeListener="#{genericController.changed}"
+								<p:autoComplete id="asn" value="#{genericController.asn}"
+									itemLabel="#{genericController.asn}"
+									itemValue="#{genericController.asn}"
+									completeMethod="#{genericController.searchASN}"
+									valueChangeListener="#{genericController.changedASN}"
 									immediate="true" inputStyle="width: 200px; height:30px"
 									placeholder="Enter an ASN to search" required="true"
 									requiredMessage="Please Enter the ASN NBR to start..."
-									onselect="#{asnController.search(asnController.asn)}"
+									onselect="#{genericController.search(genericController.asn)}"
 									cacheTimeout="2" />
 								<p:commandButton value="Search" update="asnTable searchForm"
-									action="#{genericController.search(asnController.asn)}"
+									action="#{genericController.searchASN(genericController.asn)}"
 									icon="fa fa-search" />
 							</p:panelGrid>
 
@@ -42,14 +42,14 @@
 						<br />
 						<h:form>
 							<p:commandButton value="Print" icon="fa fa-print"
-								action="#{asnController.print()}">
+								action="#{genericController.printASN()}">
 							</p:commandButton>
 						</h:form>
 						<br />
 						<br />
 
 						<p:dataTable id="asnTable" var="generic" styleClass="myTable"
-							value="#{asnController.asnList}" paginator="true" rows="4"
+							value="#{genericController.asnList}" paginator="true" rows="4"
 							editable="true" reflow="true">
 
 							<p:column headerText="ASN">
@@ -67,7 +67,7 @@
 								<h:outputText value="#{generic.po_nbr}"
 									filterMatchMode="contains" />
 							</p:column>
-							
+
 							<p:column headerText="Appt NBR">
 								<h:outputText value="#{generic.appt_nbr}"
 									filterMatchMode="contains" />

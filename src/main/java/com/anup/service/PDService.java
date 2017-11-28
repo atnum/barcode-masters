@@ -4,14 +4,9 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
-import com.anup.controller.GenericController;
 import com.anup.entity.IPAddress;
 import com.anup.entity.PickDirective;
 import com.anup.repository.FacilityRepository;
@@ -39,31 +34,31 @@ public class PDService {
 
 	private List<PickDirective> myList;
 
-	@Autowired
-	private GenericController genericController;
-	
+	public String username;
+
+	public int port;
+
 	@Autowired
 	private GenericTempService gts;
-	
+
 	private String address;
-	
-	@PostConstruct
+
 	public List<PickDirective> getAllPicks() {
 
 		return repository.findAllByDesc();
 
 	}
 
-	// @PostConstruct
+	@PostConstruct
 	@Scheduled(fixedDelay = 60000)
 	@Transactional
 	public void init() {
-		
-		address = gts.getAllDefIp();
 
-		GenericController.myIP = address;
+		address = gts.getAllDefIp();
 		
-		System.out.println("The IP address is :" + GenericController.myIP);
+		port = 9100;
+		
+		System.out.println("The IP address is :" + address);
 
 		String zpl = "^XA~TA000~JSN^LT0^MNW^MTT^PON^PMN^LH0,0^JMA^PR6,6~SD15^JUS^LRN^CI0^XZ\r\n" + "^XA\r\n"
 				+ "^MMT\r\n" + "^PW609\r\n" + "^LL0406\r\n" + "^LS0\r\n" + "^FO160,0^GFA,02304,02304,00036,:Z64:\r\n"
@@ -115,7 +110,7 @@ public class PDService {
 			// String ip = (String) first;
 
 			try {
-				ZebraUtils.printZpl(zpl, GenericController.myIP, 9100);
+				ZebraUtils.printZpl(zpl, address, port);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

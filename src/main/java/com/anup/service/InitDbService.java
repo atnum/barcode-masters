@@ -1,21 +1,13 @@
 package com.anup.service;
 
-import java.util.Iterator;
-import java.util.List;
-
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import com.anup.controller.GenericController;
-import com.anup.entity.Facility;
-import com.anup.entity.IPAddress;
 import com.anup.entity.Product;
 import com.anup.entity.Role;
 import com.anup.entity.User;
-import com.anup.repository.FacilityRepository;
 import com.anup.repository.ProductRepository;
 import com.anup.repository.RoleRepository;
 import com.anup.repository.UserRepository;
@@ -25,9 +17,6 @@ public class InitDbService {
 
 	@Autowired
 	private ProductRepository productRepository;
-
-	@Autowired
-	private FacilityRepository fr;
 
 	@Autowired
 	UserRepository user;

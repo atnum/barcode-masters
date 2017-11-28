@@ -2,7 +2,6 @@ package com.anup.controller;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -15,11 +14,13 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
+import com.anup.entity.ASN;
 import com.anup.entity.Facility;
 import com.anup.entity.Generic;
 import com.anup.entity.GenericTemp;
 import com.anup.entity.IPAddress;
 import com.anup.entity.PickDirective;
+import com.anup.repository.AsnRepository;
 import com.anup.repository.PDRepository;
 import com.anup.service.GenericService;
 import com.anup.service.GenericTempService;
@@ -69,7 +70,7 @@ public class GenericController implements Serializable {
 
 	public Generic generic = new Generic();
 
-	private String username; // getting logged user
+	public String username; // getting logged user
 
 	private String barcodeType;
 
@@ -79,6 +80,7 @@ public class GenericController implements Serializable {
 
 	private String newContainerId;
 
+	@SuppressWarnings("unused")
 	private static final int MASK = (-1) >>> 1;
 
 	private List<IPAddress> addresses;
@@ -87,12 +89,23 @@ public class GenericController implements Serializable {
 
 	public String ip;
 
-	public static String myIP;
+	public int port;
+
+	@Autowired
+	private AsnRepository asnRepository;
+
+	private String asn;
+
+	private List<ASN> asnList = null;
+
+	private List<String> containerList;
+
+	private String newASN;
+
+	String myASN = "";
 
 	public GenericController() {
 		barcodeType = "code128";
-		
-		myIP = ip;
 	}
 
 	@PostConstruct
@@ -104,15 +117,9 @@ public class GenericController implements Serializable {
 
 		addresses = genericTempService.getAllAddress();
 
-		Iterator iter = addresses.iterator();
-
-		Object first = iter.next();
-
-		ip = (String) first;
-
-		myIP = ip;
-
 		System.out.println("The IP Address is: " + ip);
+
+		asnList = asnRepository.findAllAsn(myASN);
 
 		// myList = repository.findAllByDesc();
 
@@ -126,8 +133,25 @@ public class GenericController implements Serializable {
 
 	}
 
+	public void setPrinter(String ip) {
+
+		this.ip = ip;
+
+		genericTempService.setPrinterByUser(username.toLowerCase(), ip);
+
+		System.out.println(ip + "---" + username);
+
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+				"IP Address " + ip + " has been set for the Username " + username + " with the printer Successfully!",
+				null));
+	}
+
 	public void changed(ValueChangeEvent e) throws IOException {
 		newContainerId = e.getNewValue().toString();
+	}
+
+	public void changedASN(ValueChangeEvent e) throws IOException {
+		newASN = e.getNewValue().toString();
 	}
 
 	public List<Generic> search(String newContainerId) {
@@ -178,7 +202,17 @@ public class GenericController implements Serializable {
 	}
 
 	public void save() {
+		try {
+			ip = genericTempService.findIPByUser(username.toLowerCase());
 
+			port = genericTempService.findPortByUser(username.toLowerCase(), ip);
+
+			System.out.println("The IP for the Username " + username + " is " + ip);
+
+			System.out.println("The Port for the Username " + username + " is " + port);
+		} catch (Exception e) {
+			System.out.println("Its null " + username.toLowerCase());
+		}
 		genericTempService.deleteAll();
 
 		System.out.println("Checking Container ID is :" + genericService.isContainerExist(generic.getContainerId()));
@@ -208,7 +242,7 @@ public class GenericController implements Serializable {
 			System.out.println(s1);
 
 			try {
-				ZebraUtils.printZpl(s1, ip, 9100);
+				ZebraUtils.printZpl(s1, ip, port);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -266,6 +300,19 @@ public class GenericController implements Serializable {
 	// Batch Save of Containers
 	public void saveBatch() {
 
+		ip = genericTempService.findIPByUser(username.toLowerCase());
+
+		try {
+			ip = genericTempService.findIPByUser(username.toLowerCase());
+
+			port = genericTempService.findPortByUser(username.toLowerCase(), ip);
+
+			System.out.println("The IP for the Username " + username + " is " + ip);
+
+			System.out.println("The Port for the Username " + username + " is " + port);
+		} catch (Exception e) {
+			System.out.println("Its null " + username.toLowerCase());
+		}
 		genericTempService.deleteAll();
 
 		if (containerQty != 0)
@@ -303,7 +350,7 @@ public class GenericController implements Serializable {
 				System.out.println(s1);
 
 				try {
-					ZebraUtils.printZpl(s1, ip, 9100);
+					ZebraUtils.printZpl(s1, ip, port);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -340,5 +387,73 @@ public class GenericController implements Serializable {
 	// public void sayHello() {
 	// System.out.println("Hello World From Component ");
 	// }
+
+	public List<ASN> searchASN(String newASN) {
+
+		try {
+
+			myASN = newASN.toLowerCase();
+
+			if (myASN != null) {
+				System.out.println("The value has been changed " + myASN);
+
+			} else {
+				System.out.println("Container ID is null dude!!!");
+			}
+
+			asnList = asnRepository.findAllAsn(myASN);
+
+		} catch (Exception e) {
+			e.getMessage();
+		}
+
+		return asnList;
+	}
+
+	public void printASN() {
+
+		try {
+			ip = genericTempService.findIPByUser(username.toLowerCase());
+
+			port = genericTempService.findPortByUser(username.toLowerCase(), ip);
+
+			System.out.println("The IP for the Username " + username + " is " + ip);
+
+			System.out.println("The Port for the Username " + username + " is " + port);
+		} catch (Exception e) {
+			System.out.println("Its null " + username.toLowerCase());
+		}
+
+		for (ASN n : asnList) {
+
+			String s1 = "^XA~TA000~JSN^LT0^MNW^MTT^PON^PMN^LH0,0^JMA^PR6,6~SD15^JUS^LRN^CI0^XZ\r\n" + "^XA\r\n"
+					+ "^MMT\r\n" + "^PW609\r\n" + "^LL0406\r\n" + "^LS0\r\n"
+					+ "^FO224,0^GFA,01280,01280,00020,:Z64:\r\n"
+					+ "eJztkTFOAzEQRf94ImxEtISKRXLIHsEgii0QbBUuQe6RIoqGKEoJV3KqXIJiJS5gOirCJhoj0VEilF+M5Kev57EMHPLvQoJBN38wBhJQ6GmA+S0nCwTgUpnDqkBrgAowyjzZc4q071llNZsTEd6z3HtkUNTekbKCBa0YfIT2LvfGFJEaYn+VHrJvheSCsHHX9dNCmcUM04Z6/mZI2We6Tctu1rXbao+2OC19Q/Qaht/7sbArdr5wLPleWnJpd75wgXHWLYxjMa6sIOrr0YZ9997+JJyt1Vfgbekh/PJcV5+6y2j9nuaIdtO/j7NR/NWnHPIX8wUgajEC:FDC9\r\n"
+					+ "^BY3,3,102^FT74,249^BCN,,Y,N\r\n" + "^FD>:%%CONT^FS\r\n"
+					+ "^FT16,98^A0N,23,24^FH\\^FDASN number: %%ASN^FS\r\n"
+					+ "^FT376,98^A0N,23,24^FH\\^FDAPPT number: %%APPT^FS\r\n"
+					+ "^FT16,347^A0N,23,24^FH\\^FDPO number: %%PO^FS\r\n" + "^PQ1,0,1,Y^XZ";
+
+			s1 = s1.replaceAll("%%CONT", n.getContainer_id());
+
+			s1 = s1.replaceAll("%%ASN", n.getAsn_nbr());
+
+			s1 = s1.replaceAll("%%PO", n.getPo_nbr());
+
+			s1 = s1.replaceAll("%%APPT", n.getAppt_nbr());
+
+			System.out.println(s1);
+
+			try {
+				ZebraUtils.printZpl(s1, ip, port);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			System.out.println("The ASN LIST IS :" + n.getContainer_id() + " ---- " + n.getAsn_nbr());
+		}
+
+	}
 
 }

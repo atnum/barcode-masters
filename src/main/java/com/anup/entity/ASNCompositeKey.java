@@ -2,9 +2,17 @@ package com.anup.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.Id;
-
+import lombok.Getter;
+import lombok.Setter;
+@Getter
+@Setter
 public class ASNCompositeKey implements Serializable{
+
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 
 	private String asn_nbr;

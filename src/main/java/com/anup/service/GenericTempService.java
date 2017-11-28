@@ -19,17 +19,17 @@ public class GenericTempService {
 
 	@Autowired
 	private GenericTempRepository genericTempRepository;
-	
+
 	@Autowired
 	private GenericRepository genericRepository;
-	
+
 	@Autowired
 	private IPAddressRepository addressRepository;
-	
+
 	public List<IPAddress> getAllAddress() {
 		return addressRepository.allIP();
 	}
-	
+
 	public String getAllDefIp() {
 		return addressRepository.myBaseIp();
 	}
@@ -42,13 +42,26 @@ public class GenericTempService {
 	public void deleteAll() {
 		genericTempRepository.deleteAllInBatch();
 	}
-	
+
 	public String getRandomContainer() {
 		return genericRepository.randomContainer();
 	}
-	
+
 	@Transactional
 	public void save(GenericTemp g) {
 		genericTempRepository.save(g);
+	}
+
+	@Transactional
+	public void setPrinterByUser(String user, String ip) {
+		addressRepository.setPrinterByUser(user, ip);
+	}
+
+	public String findIPByUser(String user) {
+		return addressRepository.ipByUser(user);
+	}
+
+	public int findPortByUser(String user, String ip) {
+		return addressRepository.portByUser(user, ip);
 	}
 }
