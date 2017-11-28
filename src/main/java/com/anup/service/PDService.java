@@ -80,7 +80,7 @@ public class PDService {
 
 		// List<String> containers = repository.findAllCont();
 
-		System.out.println("Size of myList is : " + myList.size());
+		System.out.println("Size of PickList is : " + myList.size());
 
 		for (PickDirective p : myList) {
 
