@@ -1,15 +1,17 @@
 package com.anup.service;
 
-import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import com.anup.controller.GenericController;
 import com.anup.entity.IPAddress;
 import com.anup.entity.PickDirective;
 import com.anup.repository.FacilityRepository;
@@ -37,6 +39,14 @@ public class PDService {
 
 	private List<PickDirective> myList;
 
+	@Autowired
+	private GenericController genericController;
+	
+	@Autowired
+	private GenericTempService gts;
+	
+	private String address;
+	
 	@PostConstruct
 	public List<PickDirective> getAllPicks() {
 
@@ -48,6 +58,12 @@ public class PDService {
 	@Scheduled(fixedDelay = 60000)
 	@Transactional
 	public void init() {
+		
+		address = gts.getAllDefIp();
+
+		GenericController.myIP = address;
+		
+		System.out.println("The IP address is :" + GenericController.myIP);
 
 		String zpl = "^XA~TA000~JSN^LT0^MNW^MTT^PON^PMN^LH0,0^JMA^PR6,6~SD15^JUS^LRN^CI0^XZ\r\n" + "^XA\r\n"
 				+ "^MMT\r\n" + "^PW609\r\n" + "^LL0406\r\n" + "^LS0\r\n" + "^FO160,0^GFA,02304,02304,00036,:Z64:\r\n"
@@ -90,19 +106,19 @@ public class PDService {
 
 			System.out.println("List of values are: " + p.getITEM_ID() + "--" + p.getPICK_TO_CONTAINER_ID());
 
-			addresses = genericTempService.getAllAddress();
+			// addresses = genericTempService.getAllAddress();
 
-			Iterator iter = addresses.iterator();
+			// Iterator iter = addresses.iterator();
+			//
+			// Object first = iter.next();
+			//
+			// String ip = (String) first;
 
-			Object first = iter.next();
-
-			String ip = (String) first;
-
-			 try {
-			 ZebraUtils.printZpl(zpl ,ip ,9100);
-			 }catch(Exception e) {
-			 e.printStackTrace();
-			 }
+			try {
+				ZebraUtils.printZpl(zpl, GenericController.myIP, 9100);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }

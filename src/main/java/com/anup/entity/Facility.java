@@ -11,12 +11,10 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name="bm_facility")
+@Table(name="facility")
 public class Facility {
 
 	@Id
-	private int id;
-	
 	@Column(name = "Facility_Id")
 	private String facilityId;
 
@@ -29,8 +27,7 @@ public class Facility {
 	public Facility() {
 	}
 
-	public Facility(int id, String facilityId, String description, boolean deleteEnableFlag) {
-		this.id = id;
+	public Facility(String facilityId, String description, boolean deleteEnableFlag) {
 		this.facilityId = facilityId;
 		this.description = description;
 		this.deleteEnableFlag = deleteEnableFlag;

@@ -9,7 +9,10 @@ import com.anup.entity.IPAddress;
 
 public interface IPAddressRepository extends JpaRepository<IPAddress, Integer> {
 	
-	@Query("SELECT distinct f.ip from IPAddress f Order by 1 desc")
+	@Query("SELECT distinct f.ip from IPAddress f Order by 1 asc")
 	List<IPAddress> allIP();
+	
+	@Query("SELECT distinct f.ip from IPAddress f Where f.defaultIp = '1' ")
+	String myBaseIp();
 	
 }

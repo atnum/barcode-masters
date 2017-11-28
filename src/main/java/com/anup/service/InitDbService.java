@@ -1,12 +1,17 @@
 package com.anup.service;
 
+import java.util.Iterator;
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import com.anup.controller.GenericController;
 import com.anup.entity.Facility;
+import com.anup.entity.IPAddress;
 import com.anup.entity.Product;
 import com.anup.entity.Role;
 import com.anup.entity.User;
@@ -34,7 +39,6 @@ public class InitDbService {
 	public void init() {
 
 		productRepository.deleteAllInBatch();
-		fr.deleteAllInBatch();
 		role.deleteAllInBatch();
 		user.deleteAllInBatch();
 
@@ -53,11 +57,6 @@ public class InitDbService {
 		r.setUser(u);
 		r.setRole("ROLE_ZEBRA");
 		role.save(r);
-
-		Facility f1 = new Facility(1, "QR", "QATAR WH", true);
-		Facility f2 = new Facility(2, "PR", "PRODUCTION WH", false);
-		fr.save(f1);
-		fr.save(f2);
 
 		Product product = new Product();
 		product.setName("Micromax");

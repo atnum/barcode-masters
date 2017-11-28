@@ -29,6 +29,10 @@ public class GenericTempService {
 	public List<IPAddress> getAllAddress() {
 		return addressRepository.allIP();
 	}
+	
+	public String getAllDefIp() {
+		return addressRepository.myBaseIp();
+	}
 
 	public List<Generic> findAllByGenericTemp() {
 		return genericRepository.findAllGenericTempByDesc();

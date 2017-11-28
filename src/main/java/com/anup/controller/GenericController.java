@@ -7,13 +7,12 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import com.anup.entity.Facility;
@@ -31,7 +30,7 @@ import lombok.Setter;
 
 //@ManagedBean
 //@SessionScoped
-@Scope("session")
+@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 // Spring-specific annotation
 @Component
 @Getter
@@ -88,8 +87,12 @@ public class GenericController implements Serializable {
 
 	public String ip;
 
+	public static String myIP;
+
 	public GenericController() {
 		barcodeType = "code128";
+		
+		myIP = ip;
 	}
 
 	@PostConstruct
@@ -106,6 +109,10 @@ public class GenericController implements Serializable {
 		Object first = iter.next();
 
 		ip = (String) first;
+
+		myIP = ip;
+
+		System.out.println("The IP Address is: " + ip);
 
 		// myList = repository.findAllByDesc();
 
@@ -190,20 +197,14 @@ public class GenericController implements Serializable {
 			// generic.getContainerId() + zpl7;
 			// System.out.println(zpl3);
 
-			String s1 = "^XA~TA000~JSN^LT0^MNW^MTT^PON^PMN^LH0,0^JMA^PR6,6~SD15^JUS^LRN^CI0^XZ\r\n" + 
-					"^XA\r\n" + 
-					"^MMT\r\n" + 
-					"^PW609\r\n" + 
-					"^LL0406\r\n" + 
-					"^LS0\r\n" + 
-					"^FO192,32^GFA,02688,02688,00028,:Z64:\r\n" + 
-					"eJztkLFOwzAQQC81ijNUzsDiIWr6CZVYbkoHJL4jLJ0vYiBDpFhCKkyw8gV8AxsplejIL3jratSlQ0VxqqRNUT8AJD/Jsn32O98ZwOFwOP433A75O9gEEjuovbdpFhGAZ9fCTqa9nnS8fHcGoyZEg05em8zv5Ez9zhkeeV51duzxjqeA6VTH7BGZsV4iEqb3HvSzlbn5/C6iHMhb+GWfGs9TEOAknd29ICIgm4aLBzx4UhbZbP4RjaT1OL9/lo3HFIzXmG7nSg5tnT0Rsrf13isJKKt4FVFdYMm5aev0KoFA14opTOv+poK9HvqLsfaYiigAOuc+w31/WmAwTPWlkigBL4ToYdD+p0kGI8q+5lVU2Idv4yvf7tsvnISaqLTvjTXky+VTP9R5cxa/89mmSEJTxsrbrhahsXs4xRCCk3GHw/FX+AFeo17t:2521\r\n" + 
-					"^BY3,3,136^FT87,284^BCN,,Y,N\r\n" + 
-					"^FD>:%%CONT^FS\r\n" + 
-					"^PQ1,0,1,Y^XZ";
-			
+			String s1 = "^XA~TA000~JSN^LT0^MNW^MTT^PON^PMN^LH0,0^JMA^PR6,6~SD15^JUS^LRN^CI0^XZ\r\n" + "^XA\r\n"
+					+ "^MMT\r\n" + "^PW609\r\n" + "^LL0406\r\n" + "^LS0\r\n"
+					+ "^FO192,32^GFA,02688,02688,00028,:Z64:\r\n"
+					+ "eJztkLFOwzAQQC81ijNUzsDiIWr6CZVYbkoHJL4jLJ0vYiBDpFhCKkyw8gV8AxsplejIL3jratSlQ0VxqqRNUT8AJD/Jsn32O98ZwOFwOP433A75O9gEEjuovbdpFhGAZ9fCTqa9nnS8fHcGoyZEg05em8zv5Ez9zhkeeV51duzxjqeA6VTH7BGZsV4iEqb3HvSzlbn5/C6iHMhb+GWfGs9TEOAknd29ICIgm4aLBzx4UhbZbP4RjaT1OL9/lo3HFIzXmG7nSg5tnT0Rsrf13isJKKt4FVFdYMm5aev0KoFA14opTOv+poK9HvqLsfaYiigAOuc+w31/WmAwTPWlkigBL4ToYdD+p0kGI8q+5lVU2Idv4yvf7tsvnISaqLTvjTXky+VTP9R5cxa/89mmSEJTxsrbrhahsXs4xRCCk3GHw/FX+AFeo17t:2521\r\n"
+					+ "^BY3,3,136^FT87,284^BCN,,Y,N\r\n" + "^FD>:%%CONT^FS\r\n" + "^PQ1,0,1,Y^XZ";
+
 			s1 = s1.replaceAll("%%CONT", generic.getContainerId());
-			
+
 			System.out.println(s1);
 
 			try {
@@ -291,22 +292,16 @@ public class GenericController implements Serializable {
 
 				System.out.println("The Container id are : " + gt.getContainerId());
 
-				String s1 = "^XA~TA000~JSN^LT0^MNW^MTT^PON^PMN^LH0,0^JMA^PR6,6~SD15^JUS^LRN^CI0^XZ\r\n" + 
-						"^XA\r\n" + 
-						"^MMT\r\n" + 
-						"^PW609\r\n" + 
-						"^LL0406\r\n" + 
-						"^LS0\r\n" + 
-						"^FO192,32^GFA,02688,02688,00028,:Z64:\r\n" + 
-						"eJztkLFOwzAQQC81ijNUzsDiIWr6CZVYbkoHJL4jLJ0vYiBDpFhCKkyw8gV8AxsplejIL3jratSlQ0VxqqRNUT8AJD/Jsn32O98ZwOFwOP433A75O9gEEjuovbdpFhGAZ9fCTqa9nnS8fHcGoyZEg05em8zv5Ez9zhkeeV51duzxjqeA6VTH7BGZsV4iEqb3HvSzlbn5/C6iHMhb+GWfGs9TEOAknd29ICIgm4aLBzx4UhbZbP4RjaT1OL9/lo3HFIzXmG7nSg5tnT0Rsrf13isJKKt4FVFdYMm5aev0KoFA14opTOv+poK9HvqLsfaYiigAOuc+w31/WmAwTPWlkigBL4ToYdD+p0kGI8q+5lVU2Idv4yvf7tsvnISaqLTvjTXky+VTP9R5cxa/89mmSEJTxsrbrhahsXs4xRCCk3GHw/FX+AFeo17t:2521\r\n" + 
-						"^BY3,3,136^FT87,284^BCN,,Y,N\r\n" + 
-						"^FD>:%%CONT^FS\r\n" + 
-						"^PQ1,0,1,Y^XZ";
-				
+				String s1 = "^XA~TA000~JSN^LT0^MNW^MTT^PON^PMN^LH0,0^JMA^PR6,6~SD15^JUS^LRN^CI0^XZ\r\n" + "^XA\r\n"
+						+ "^MMT\r\n" + "^PW609\r\n" + "^LL0406\r\n" + "^LS0\r\n"
+						+ "^FO192,32^GFA,02688,02688,00028,:Z64:\r\n"
+						+ "eJztkLFOwzAQQC81ijNUzsDiIWr6CZVYbkoHJL4jLJ0vYiBDpFhCKkyw8gV8AxsplejIL3jratSlQ0VxqqRNUT8AJD/Jsn32O98ZwOFwOP433A75O9gEEjuovbdpFhGAZ9fCTqa9nnS8fHcGoyZEg05em8zv5Ez9zhkeeV51duzxjqeA6VTH7BGZsV4iEqb3HvSzlbn5/C6iHMhb+GWfGs9TEOAknd29ICIgm4aLBzx4UhbZbP4RjaT1OL9/lo3HFIzXmG7nSg5tnT0Rsrf13isJKKt4FVFdYMm5aev0KoFA14opTOv+poK9HvqLsfaYiigAOuc+w31/WmAwTPWlkigBL4ToYdD+p0kGI8q+5lVU2Idv4yvf7tsvnISaqLTvjTXky+VTP9R5cxa/89mmSEJTxsrbrhahsXs4xRCCk3GHw/FX+AFeo17t:2521\r\n"
+						+ "^BY3,3,136^FT87,284^BCN,,Y,N\r\n" + "^FD>:%%CONT^FS\r\n" + "^PQ1,0,1,Y^XZ";
+
 				s1 = s1.replaceAll("%%CONT", gt.getContainerId());
-				
+
 				System.out.println(s1);
-				
+
 				try {
 					ZebraUtils.printZpl(s1, ip, 9100);
 				} catch (Exception e) {

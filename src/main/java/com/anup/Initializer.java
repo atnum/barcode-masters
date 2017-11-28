@@ -2,14 +2,17 @@ package com.anup;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebListener;
 
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
 @EnableWebMvc
-public class Initializer implements ServletContextInitializer {
+@WebListener
+public class Initializer extends RequestContextListener implements ServletContextInitializer  {
 
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {

@@ -28,6 +28,9 @@ public class IPAddress {
 
 	private int port;
 
+	@Column(name = "DEFAULT_IP")
+	private int defaultIp;
+
 	@Override
 	public String toString() {
 		return ip;
