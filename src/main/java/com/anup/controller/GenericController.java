@@ -82,7 +82,7 @@ public class GenericController implements Serializable {
 	@SuppressWarnings("unused")
 	private static final int MASK = (-1) >>> 1;
 
-	private List<IPAddress> addresses;
+	private List<String> addresses;
 
 	private IPAddress address;
 

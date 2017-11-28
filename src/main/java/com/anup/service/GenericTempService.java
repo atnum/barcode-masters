@@ -26,7 +26,7 @@ public class GenericTempService {
 	@Autowired
 	private IPAddressRepository addressRepository;
 
-	public List<IPAddress> getAllAddress() {
+	public List<String> getAllAddress() {
 		return addressRepository.allIP();
 	}
 
