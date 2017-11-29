@@ -29,5 +29,8 @@ public interface IPAddressRepository extends JpaRepository<IPAddress, Integer> {
 	@Modifying
 	@Query(value = "update IPAddress i set i.USER_FLAG = null where i.USER_FLAG = ?1", nativeQuery = true)
 	void setPrinterBeforeUse(String user);
+	
+	@Query(value = "SELECT distinct f.id from IPAddress f Where f.ip = ?1", nativeQuery = true)
+	int myId(String ip);
 
 }

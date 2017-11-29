@@ -37,7 +37,7 @@
 					<h:form>
 						<p:focus />
 
-						<p:panelGrid columns="5">
+						<p:panelGrid columns="6">
 					
 		
 		Barcode Type: 	 
@@ -67,6 +67,10 @@
 							<p:commandButton value="Save Printer" update=":messages"
 								action="#{genericController.setPrinter(genericController.ip)}"
 								icon="fa fa-save" />
+								
+							<p:commandButton value="Delete Printer" update=":messages"
+								action="#{genericController.deletePrinter(genericController.ip)}"
+								icon="fa fa-trash-o"/>
 
 						</p:panelGrid>
 

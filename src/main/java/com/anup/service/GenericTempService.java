@@ -69,9 +69,14 @@ public class GenericTempService {
 	public void savePrinter(IPAddress address) {
 		addressRepository.save(address);
 	}
-	
+
 	@Transactional
 	public void updateUserForPrinter(String user) {
 		addressRepository.setPrinterBeforeUse(user);
+	}
+
+	public void deletePrinter(String ip) {
+		int id = addressRepository.myId(ip);
+		addressRepository.delete(id);
 	}
 }

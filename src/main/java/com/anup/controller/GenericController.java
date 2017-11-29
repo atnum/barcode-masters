@@ -1,15 +1,15 @@
 package com.anup.controller;
 
-import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
-
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -151,6 +151,21 @@ public class GenericController implements Serializable {
 				null));
 
 		addresses = genericTempService.getAllAddress();
+
+	}
+
+	public String deletePrinter(String ip) {
+
+		this.ip = ip;
+
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+				"IP Address " + ip + " has been deleted Successfully!", null));
+
+		genericTempService.deletePrinter(ip);
+
+		addresses = genericTempService.getAllAddress();
+		// added for redirect functionality
+		return "settings?faces-redirect=true";
 
 	}
 
