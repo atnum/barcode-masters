@@ -1,5 +1,7 @@
 package com.anup.controller;
 
+import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
@@ -79,6 +81,8 @@ public class GenericController implements Serializable {
 
 	private String newContainerId;
 
+	List<String> distinctAsn;
+
 	@SuppressWarnings("unused")
 	private static final int MASK = (-1) >>> 1;
 
@@ -135,7 +139,7 @@ public class GenericController implements Serializable {
 	public void setPrinter(String ip) {
 
 		this.ip = ip;
-		
+
 		genericTempService.updateUserForPrinter(username.toLowerCase());
 
 		genericTempService.setPrinterByUser(username.toLowerCase(), ip);
@@ -244,7 +248,6 @@ public class GenericController implements Serializable {
 			s1 = s1.replaceAll("%%CONT", generic.getContainerId());
 
 			System.out.println(s1);
-			
 
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Printing Started for Container (" + generic.getContainerId() + " !)", null));
@@ -254,7 +257,6 @@ public class GenericController implements Serializable {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
 
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Printing Finished for Container (" + generic.getContainerId() + " !)", null));
@@ -360,7 +362,7 @@ public class GenericController implements Serializable {
 				s1 = s1.replaceAll("%%CONT", gt.getContainerId());
 
 				System.out.println(s1);
-				
+
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 						"Printing Started for Container (" + gt.getContainerId() + " !)", null));
 
@@ -370,12 +372,10 @@ public class GenericController implements Serializable {
 					e.printStackTrace();
 				}
 				genericTempService.save(gt);
-				
 
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 						"Printing Finished for Container (" + gt.getContainerId() + " !)", null));
 
-				
 			}
 
 			generic = new Generic();
@@ -431,6 +431,11 @@ public class GenericController implements Serializable {
 		return asnList;
 	}
 
+	// Remove Duplicate suggestions from Search
+	public List<String> distinctASN(String asn) {
+		return asnRepository.allDistinctASN(asn);
+	}
+
 	public void printASN() {
 
 		try {
@@ -465,20 +470,18 @@ public class GenericController implements Serializable {
 			s1 = s1.replaceAll("%%APPT", n.getAppt_nbr());
 
 			System.out.println(s1);
-			
+
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Printing Started for ASN (" + n.getAppt_nbr() + " !)", null));
-
 
 			try {
 				ZebraUtils.printZpl(s1, ip, port);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Printing Finished for ASN (" + n.getAppt_nbr() + " !)", null));
-
 
 			System.out.println("The ASN LIST IS :" + n.getContainer_id() + " ---- " + n.getAsn_nbr());
 		}
@@ -516,17 +519,15 @@ public class GenericController implements Serializable {
 			s1 = s1.replaceAll("%%CONT", generic.getContainerId());
 
 			System.out.println(s1);
-			
+
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Printing Started for Container (" + generic.getContainerId() + " !)", null));
-
 
 			try {
 				ZebraUtils.printZpl(s1, ip, port);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
 
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Printing Finished for Container (" + generic.getContainerId() + " !)", null));
@@ -571,7 +572,7 @@ public class GenericController implements Serializable {
 			s1 = s1.replaceAll("%%APPT", n.getAppt_nbr());
 
 			System.out.println(s1);
-			
+
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Printing Started for ASN (" + n.getAppt_nbr() + " !)", null));
 
@@ -582,12 +583,12 @@ public class GenericController implements Serializable {
 			}
 
 			System.out.println("The ASN LIST IS :" + n.getContainer_id() + " ---- " + n.getAsn_nbr());
-			
+
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Printing Finished for ASN (" + n.getAppt_nbr() + " !)", null));
-			
+
 			init();
-			
+
 		}
 
 	}
