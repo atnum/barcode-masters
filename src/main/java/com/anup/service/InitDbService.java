@@ -4,8 +4,6 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.anup.entity.IPAddress;
 import com.anup.entity.Product;
 import com.anup.entity.Role;
 import com.anup.entity.User;

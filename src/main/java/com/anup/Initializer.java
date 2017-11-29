@@ -23,7 +23,7 @@ public class Initializer extends RequestContextListener implements ServletContex
 		servletContext.setInitParameter("javax.faces.FACELETS_SKIP_COMMENTS", "true");
 		servletContext.setInitParameter("BootsFaces_USETHEME", "true");
 		servletContext.setInitParameter("primefaces.FONT_AWESOME", "true");;
-		servletContext.setInitParameter("BootsFaces_THEME", "united");
+		servletContext.setInitParameter("BootsFaces_THEME", "slate");
 		servletContext.setInitParameter("javax.faces.PARTIAL_STATE_SAVING", "false");
 		servletContext.setInitParameter("javax.faces.WEBAPP_RESOURCES_DIRECTORY", "/**");
 	}
