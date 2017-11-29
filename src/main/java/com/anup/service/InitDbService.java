@@ -5,9 +5,11 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.anup.entity.IPAddress;
 import com.anup.entity.Product;
 import com.anup.entity.Role;
 import com.anup.entity.User;
+import com.anup.repository.IPAddressRepository;
 import com.anup.repository.ProductRepository;
 import com.anup.repository.RoleRepository;
 import com.anup.repository.UserRepository;
@@ -24,12 +26,19 @@ public class InitDbService {
 	@Autowired
 	RoleRepository role;
 
+	@Autowired
+	GenericTempService ts;
+
+	@Autowired
+	IPAddressRepository ipr;
+
 	@PostConstruct
 	public void init() {
 
 		productRepository.deleteAllInBatch();
 		role.deleteAllInBatch();
 		user.deleteAllInBatch();
+		//ipr.deleteAllInBatch();
 
 		User u = new User();
 		u.setUserId(1);
@@ -74,10 +83,18 @@ public class InitDbService {
 		product2.setBarcode("1000002");
 		productRepository.save(product2);
 
+//		IPAddress ip = new IPAddress();
+//		ip.setIp("192.1.1.1");
+//		ip.setDefault_ip(0);
+//		ip.setPort(9100);
+//		ip.setPrinterName("CE");
+//
+//		ts.savePrinter(ip);
+
 	}
 
-//	@Scheduled(initialDelay = 1000, fixedRate = 10000)
-//	public void sayHello() {
-//		System.out.println("Hello World ");
-//	}
+	// @Scheduled(initialDelay = 1000, fixedRate = 10000)
+	// public void sayHello() {
+	// System.out.println("Hello World ");
+	// }
 }

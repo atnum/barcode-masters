@@ -62,9 +62,9 @@ public class MyWebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 											// after which token expires.key to
 											// identify token keep for one day
 				.alwaysRemember(false).and().logout() // logout configuration
-				// .logoutUrl("/logout")
+				.logoutUrl("/logout")
 				.logoutSuccessUrl("/login.jsf")
-				// .logoutSuccessUrl("/index.xhtml")
+				.logoutSuccessUrl("/login.jsf")
 				.invalidateHttpSession(true).deleteCookies("JSESSIONID").permitAll().and().csrf().disable(); // Permissions
 																												// here
 

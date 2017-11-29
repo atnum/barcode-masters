@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,17 +19,20 @@ import lombok.Setter;
 public class IPAddress {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue
 	private int id;
 
 	@Column(name = "Printer_Name")
+	@NotNull
 	private String printerName;
 
+	@NotNull
 	public String ip;
 	
 	@Column(name = "USER_FLAG")
 	public String USER_FLAG;
 
+	@NotNull
 	private int port;
 
 	@Column(name = "DEFAULT_IP")

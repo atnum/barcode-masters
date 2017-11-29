@@ -18,36 +18,42 @@
 
 			<b:jumbotron>
 				<b:container>
+
+					<h3>ASN Receiving Labels Screen</h3>
+
+					<br />
+					<br />
+
+
 					<b:column>
-						<h:form id="searchForm">
-							<p:panelGrid>
-								<p:autoComplete id="asn" value="#{genericController.asn}"
-									itemLabel="#{genericController.asn}"
-									itemValue="#{genericController.asn}"
-									completeMethod="#{genericController.searchASN}"
-									valueChangeListener="#{genericController.changedASN}"
-									immediate="true" inputStyle="width: 200px; height:30px"
-									placeholder="Enter an ASN to search" required="true"
-									requiredMessage="Please Enter the ASN NBR to start..."
-									onselect="#{genericController.search(genericController.asn)}"
-									cacheTimeout="2" />
-								<p:commandButton value="Search" update="asnTable searchForm"
-									action="#{genericController.searchASN(genericController.asn)}"
-									icon="fa fa-search" />
-							</p:panelGrid>
+						<center>
+							<h:form id="searchForm">
+								<p:panelGrid>
+									<p:autoComplete id="asn" value="#{genericController.asn}"
+										itemLabel="#{genericController.asn}"
+										itemValue="#{genericController.asn}"
+										completeMethod="#{genericController.searchASN}"
+										valueChangeListener="#{genericController.changedASN}"
+										immediate="true" inputStyle="width: 200px; height:30px"
+										placeholder="Enter an ASN to search" required="true"
+										requiredMessage="Please Enter the ASN NBR to start..."
+										onselect="#{genericController.search(genericController.asn)}"
+										cacheTimeout="2" />
+									<p:commandButton value="Search" update="asnTable searchForm"
+										action="#{genericController.searchASN(genericController.asn)}"
+										icon="fa fa-search" />
+								</p:panelGrid>
 
-						</h:form>
+							</h:form>
 
-						<br />
-						<br />
-						<h:form>
-							<p:commandButton value="Print" icon="fa fa-print"
-								action="#{genericController.printASN()}">
-							</p:commandButton>
-						</h:form>
-						<br />
-						<br />
-
+							<br />
+							<h:form>
+								<p:commandButton value="Print" icon="fa fa-print"
+									action="#{genericController.printASN()}">
+								</p:commandButton>
+							</h:form>
+							<br />
+						</center>
 						<p:dataTable id="asnTable" var="generic" styleClass="myTable"
 							value="#{genericController.asnList}" paginator="true" rows="4"
 							editable="true" reflow="true">
@@ -92,6 +98,14 @@
 								<h:outputText value="#{generic.rcvd_unit_qty}"
 									filterMatchMode="contains" />
 							</p:column>
+							
+							<p:column headerText="Print">
+							<h:form>
+								<p:commandButton value="Print Me"
+									action="#{genericController.printASN(generic.asn_nbr)}">
+								</p:commandButton>
+							</h:form>
+						</p:column>
 
 						</p:dataTable>
 						<input type="hidden" name="${_csrf.parameterName}"

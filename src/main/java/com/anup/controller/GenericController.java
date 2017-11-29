@@ -135,6 +135,8 @@ public class GenericController implements Serializable {
 	public void setPrinter(String ip) {
 
 		this.ip = ip;
+		
+		genericTempService.updateUserForPrinter(username.toLowerCase());
 
 		genericTempService.setPrinterByUser(username.toLowerCase(), ip);
 
@@ -143,6 +145,9 @@ public class GenericController implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 				"IP Address " + ip + " has been set for the Username " + username + " with the printer Successfully!",
 				null));
+
+		addresses = genericTempService.getAllAddress();
+
 	}
 
 	public void changed(ValueChangeEvent e) throws IOException {
@@ -239,12 +244,20 @@ public class GenericController implements Serializable {
 			s1 = s1.replaceAll("%%CONT", generic.getContainerId());
 
 			System.out.println(s1);
+			
+
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Printing Started for Container (" + generic.getContainerId() + " !)", null));
 
 			try {
 				ZebraUtils.printZpl(s1, ip, port);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			
+
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Printing Finished for Container (" + generic.getContainerId() + " !)", null));
 
 			genericService.save(generic);
 
@@ -347,6 +360,9 @@ public class GenericController implements Serializable {
 				s1 = s1.replaceAll("%%CONT", gt.getContainerId());
 
 				System.out.println(s1);
+				
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+						"Printing Started for Container (" + gt.getContainerId() + " !)", null));
 
 				try {
 					ZebraUtils.printZpl(s1, ip, port);
@@ -354,6 +370,12 @@ public class GenericController implements Serializable {
 					e.printStackTrace();
 				}
 				genericTempService.save(gt);
+				
+
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+						"Printing Finished for Container (" + gt.getContainerId() + " !)", null));
+
+				
 			}
 
 			generic = new Generic();
@@ -443,6 +465,115 @@ public class GenericController implements Serializable {
 			s1 = s1.replaceAll("%%APPT", n.getAppt_nbr());
 
 			System.out.println(s1);
+			
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Printing Started for ASN (" + n.getAppt_nbr() + " !)", null));
+
+
+			try {
+				ZebraUtils.printZpl(s1, ip, port);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Printing Finished for ASN (" + n.getAppt_nbr() + " !)", null));
+
+
+			System.out.println("The ASN LIST IS :" + n.getContainer_id() + " ---- " + n.getAsn_nbr());
+		}
+
+	}
+
+	public void printContainer(Generic generic) {
+
+		System.out.println("I am clicked bro...!!!");
+
+		try {
+			ip = genericTempService.findIPByUser(username.toLowerCase());
+
+			port = genericTempService.findPortByUser(username.toLowerCase(), ip);
+
+			System.out.println("The IP for the Username " + username + " is " + ip);
+
+			System.out.println("The Port for the Username " + username + " is " + port);
+		} catch (Exception e) {
+			System.out.println("Its null " + username.toLowerCase());
+		}
+		genericTempService.deleteAll();
+
+		System.out.println("Checking Container ID is :" + genericService.isContainerExist(generic.getContainerId()));
+		// ---------------------Main
+		// Logic----------------------------------------
+		if (genericService.isContainerExist(generic.getContainerId()) != null) {
+
+			String s1 = "^XA~TA000~JSN^LT0^MNW^MTT^PON^PMN^LH0,0^JMA^PR6,6~SD15^JUS^LRN^CI0^XZ\r\n" + "^XA\r\n"
+					+ "^MMT\r\n" + "^PW609\r\n" + "^LL0406\r\n" + "^LS0\r\n"
+					+ "^FO192,32^GFA,02688,02688,00028,:Z64:\r\n"
+					+ "eJztkLFOwzAQQC81ijNUzsDiIWr6CZVYbkoHJL4jLJ0vYiBDpFhCKkyw8gV8AxsplejIL3jratSlQ0VxqqRNUT8AJD/Jsn32O98ZwOFwOP433A75O9gEEjuovbdpFhGAZ9fCTqa9nnS8fHcGoyZEg05em8zv5Ez9zhkeeV51duzxjqeA6VTH7BGZsV4iEqb3HvSzlbn5/C6iHMhb+GWfGs9TEOAknd29ICIgm4aLBzx4UhbZbP4RjaT1OL9/lo3HFIzXmG7nSg5tnT0Rsrf13isJKKt4FVFdYMm5aev0KoFA14opTOv+poK9HvqLsfaYiigAOuc+w31/WmAwTPWlkigBL4ToYdD+p0kGI8q+5lVU2Idv4yvf7tsvnISaqLTvjTXky+VTP9R5cxa/89mmSEJTxsrbrhahsXs4xRCCk3GHw/FX+AFeo17t:2521\r\n"
+					+ "^BY3,3,136^FT87,284^BCN,,Y,N\r\n" + "^FD>:%%CONT^FS\r\n" + "^PQ1,0,1,Y^XZ";
+
+			s1 = s1.replaceAll("%%CONT", generic.getContainerId());
+
+			System.out.println(s1);
+			
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Printing Started for Container (" + generic.getContainerId() + " !)", null));
+
+
+			try {
+				ZebraUtils.printZpl(s1, ip, port);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Printing Finished for Container (" + generic.getContainerId() + " !)", null));
+
+		}
+
+	}
+
+	public void printASN(String asn) {
+
+		try {
+			ip = genericTempService.findIPByUser(username.toLowerCase());
+
+			port = genericTempService.findPortByUser(username.toLowerCase(), ip);
+
+			System.out.println("The IP for the Username " + username + " is " + ip);
+
+			System.out.println("The Port for the Username " + username + " is " + port);
+		} catch (Exception e) {
+			System.out.println("Its null " + username.toLowerCase());
+		}
+
+		asnList = asnRepository.findAllAsn(asn);
+
+		for (ASN n : asnList) {
+
+			String s1 = "^XA~TA000~JSN^LT0^MNW^MTT^PON^PMN^LH0,0^JMA^PR6,6~SD15^JUS^LRN^CI0^XZ\r\n" + "^XA\r\n"
+					+ "^MMT\r\n" + "^PW609\r\n" + "^LL0406\r\n" + "^LS0\r\n"
+					+ "^FO224,0^GFA,01280,01280,00020,:Z64:\r\n"
+					+ "eJztkTFOAzEQRf94ImxEtISKRXLIHsEgii0QbBUuQe6RIoqGKEoJV3KqXIJiJS5gOirCJhoj0VEilF+M5Kev57EMHPLvQoJBN38wBhJQ6GmA+S0nCwTgUpnDqkBrgAowyjzZc4q071llNZsTEd6z3HtkUNTekbKCBa0YfIT2LvfGFJEaYn+VHrJvheSCsHHX9dNCmcUM04Z6/mZI2We6Tctu1rXbao+2OC19Q/Qaht/7sbArdr5wLPleWnJpd75wgXHWLYxjMa6sIOrr0YZ9997+JJyt1Vfgbekh/PJcV5+6y2j9nuaIdtO/j7NR/NWnHPIX8wUgajEC:FDC9\r\n"
+					+ "^BY3,3,102^FT74,249^BCN,,Y,N\r\n" + "^FD>:%%CONT^FS\r\n"
+					+ "^FT16,98^A0N,23,24^FH\\^FDASN number: %%ASN^FS\r\n"
+					+ "^FT376,98^A0N,23,24^FH\\^FDAPPT number: %%APPT^FS\r\n"
+					+ "^FT16,347^A0N,23,24^FH\\^FDPO number: %%PO^FS\r\n" + "^PQ1,0,1,Y^XZ";
+
+			s1 = s1.replaceAll("%%CONT", n.getContainer_id());
+
+			s1 = s1.replaceAll("%%ASN", n.getAsn_nbr());
+
+			s1 = s1.replaceAll("%%PO", n.getPo_nbr());
+
+			s1 = s1.replaceAll("%%APPT", n.getAppt_nbr());
+
+			System.out.println(s1);
+			
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Printing Started for ASN (" + n.getAppt_nbr() + " !)", null));
 
 			try {
 				ZebraUtils.printZpl(s1, ip, port);
@@ -451,6 +582,12 @@ public class GenericController implements Serializable {
 			}
 
 			System.out.println("The ASN LIST IS :" + n.getContainer_id() + " ---- " + n.getAsn_nbr());
+			
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Printing Finished for ASN (" + n.getAppt_nbr() + " !)", null));
+			
+			init();
+			
 		}
 
 	}

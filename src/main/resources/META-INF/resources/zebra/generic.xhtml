@@ -19,9 +19,14 @@
 
 			<p:growl id="messages" />
 
-			<b:container>
+			<b:jumbotron>
+				<b:container>
+				
+				<h3>Generic Labels Screen</h3>
 
-				<b:jumbotron>
+					<br />
+					
+				<center>
 					<b:column span="7">
 						<h:form id="searchForm">
 							<p:panelGrid>
@@ -31,16 +36,15 @@
 									itemValue="#{genericController.containerId}"
 									completeMethod="#{genericController.search}"
 									valueChangeListener="#{genericController.changed}"
-									immediate="true" inputStyle="width: 280px; height:30px"
-									placeholder="Enter The Container Id to Search" required="true"
-									requiredMessage="Please The Enter Container ID to start..."
+									immediate="true" inputStyle="width: 330px; height:28px"
+									placeholder="Enter the Container Id to Search" required="true"
+									requiredMessage="Please The Enter Container to start..."
 									onselect="#{genericController.search(genericController.containerId)}"
 									cacheTimeout="2" />
 								<p:commandButton value="Search" update="genericTable searchForm"
 									action="#{genericController.search(genericController.containerId)}"
 									icon="fa fa-search" />
 							</p:panelGrid>
-
 						</h:form>
 
 						<br />
@@ -48,54 +52,55 @@
 						<h:form id="saveBatchForm">
 							<p:focus />
 
-							<p:panelGrid columns="2"> 
+							<center>
+								<p:panelGrid columns="2"> 
 				
 				Facility ID:
 								<p:selectOneMenu value="#{genericController.generic.facilityId}">
-									<f:selectItems value="#{genericController.facility}" />
-								</p:selectOneMenu>
+										<f:selectItems value="#{genericController.facility}" />
+									</p:selectOneMenu>
 					
 					Number of Containers:
 		<p:inputText value="#{genericController.containerQty}" required="true"
-									requiredMessage="Container Qty Cannot be Null!"
-									placeholder="No. Of Containers" />
-							</p:panelGrid>
-							<br />
-							<!-- Adding Refresh Button -->
+										requiredMessage="Container Qty Cannot be Null!"
+										placeholder="No. Of Containers" />
+								</p:panelGrid>
+								<br />
+								<!-- Adding Refresh Button -->
 
-							<!-- End Refresh Button -->
+								<!-- End Refresh Button -->
 
-							<p:commandButton value="Save Bulk"
-								action="#{genericController.saveBatch()}" icon="fa fa-upload"
-								update="genericForm :genericTable :messages saveBatchForm" />
+								<p:commandButton value="Save Bulk"
+									action="#{genericController.saveBatch()}" icon="fa fa-upload"
+									update="genericForm :genericTable :messages saveBatchForm" />
+							</center>
 						</h:form>
 					</b:column>
 					<br />
-					<br />
 					
-					<h:form id="genericForm">
+						<h:form id="genericForm">
 
-						<p:focus />
+							<p:focus />
 
-						<p:panelGrid columns="2">
+							<p:panelGrid columns="2">
 		Facility ID:
 		<!-- <p:inputText value="#{genericController.generic.facilityId}" /> -->
-							<p:selectOneMenu value="#{genericController.generic.facilityId}">
-								<f:selectItems value="#{genericController.facility}" />
-							</p:selectOneMenu>
+								<p:selectOneMenu value="#{genericController.generic.facilityId}">
+									<f:selectItems value="#{genericController.facility}" />
+								</p:selectOneMenu>
 		
 		Container ID:
 		<p:inputText value="#{genericController.generic.containerId}"
-								placeholder="Container ID" />
-						</p:panelGrid>
-						<br />
+									placeholder="Container ID" />
+							</p:panelGrid>
+							<br />
 
-						<p:commandButton value="Save" action="#{genericController.save()}"
-							icon="fa fa-save"
-							update="genericForm :genericTable :messages genericForm" />
-					</h:form>
-					
-<!-- 					Dont Want to Use with Zebra
+							<p:commandButton value="Save"
+								action="#{genericController.save()}" icon="fa fa-save"
+								update="genericForm :genericTable :messages genericForm" />
+						</h:form>
+
+					<!-- Dont Want to Use with Zebra
 					<br/>
 				<br/>
 				<h:form>
@@ -104,12 +109,12 @@
 					</p:commandButton>
 				</h:form>
 				<br />  -->
-				
-				<br/>
-				<br />
+
+					<br />
+					<br />
 
 					<p:dataTable id="genericTable" var="generic" styleClass="myTable"
-						value="#{genericController.generics}" paginator="true" rows="4"
+						value="#{genericController.generics}" paginator="true" rows="2"
 						editable="true" reflow="true">
 
 						<p:column headerText="Facility Id">
@@ -134,11 +139,20 @@
 								height="60px;" />
 						</p:column>
 
+						<p:column headerText="Print">
+							<h:form>
+								<p:commandButton value="Print Me"
+									action="#{genericController.printContainer(generic)}">
+								</p:commandButton>
+							</h:form>
+						</p:column>
+
 					</p:dataTable>
 					<input type="hidden" name="${_csrf.parameterName}"
 						value="${_csrf.token}" />
-				</b:jumbotron>
-			</b:container>
+					</center>
+				</b:container>
+			</b:jumbotron>
 		</ui:define>
 	</ui:composition>
 </h:body>

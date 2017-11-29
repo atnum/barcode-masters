@@ -8,11 +8,23 @@
 	<title>${title}</title>
 	<meta name="viewport" content="width=device-width" />
 
+	<style>
+/* .ui-dialog {
+	background-image: url("#{resource['static/images/newbg.jpg']}");
+}
+ */
+.bgClass {
+	background: green;
+}
+</style>
+}
+
 </h:head>
 <h:body style="padding: 60px;">
 	<ui:composition template="/template/com_zebra/commonLayout.xhtml">
 
 		<ui:define name="content">
+
 			<p:growl id="messages" />
 
 			<b:jumbotron>
@@ -20,7 +32,8 @@
 					<h:form>
 						<p:focus />
 
-						<p:panelGrid columns="6">
+						<p:panelGrid columns="5">
+					
 		
 		Barcode Type: 	 
 		<p:selectOneMenu value="#{genericController.barcodeType}">
@@ -45,18 +58,39 @@
 								<f:selectItems value="#{genericController.addresses}" />
 								<p:ajax event="change" />
 							</p:selectOneMenu>
-							
+
 							<p:commandButton value="Save Printer" update=":messages"
-									action="#{genericController.setPrinter(genericController.ip)}"
-									icon="fa fa-save" />
-		
+								action="#{genericController.setPrinter(genericController.ip)}"
+								icon="fa fa-save" />
+
+						</p:panelGrid>
+
+					</h:form>
+
+				</b:container>
+
+			</b:jumbotron>
+
+			<b:jumbotron>
+				<b:container>
+
+					<h:form>
+						<p:focus />
+
+						<p:panelGrid columns="6">
+
 							<b:navLink value="New User Register"
 								href="#{request.contextPath}/register.jsf"
 								iconAwesome="fa-user-plus" />
 
+							<b:navLink value="Create a new Printer"
+								href="#{request.contextPath}/zebra/createPrinter.jsf"
+								iconAwesome="fa-print" />
+
 						</p:panelGrid>
 					</h:form>
 				</b:container>
+
 			</b:jumbotron>
 		</ui:define>
 	</ui:composition>

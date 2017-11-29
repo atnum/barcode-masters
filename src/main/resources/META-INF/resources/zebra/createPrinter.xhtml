@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>${title}</title>
+	<meta name="viewport" content="width=device-width" />
+
+</h:head>
+
+<h:body style="padding: 60px;">
+	<ui:composition template="/template/com_zebra/commonLayout.xhtml">
+
+		<ui:define name="content">
+			
+			<p:growl id="messages" />
+			
+			<b:jumbotron>
+				<b:container>
+				
+				<h3>Create Printer Screen</h3>
+				
+					<br />
+					<br />
+
+					<h:form id="addressForm">
+
+						<p:focus />
+
+						<p:panelGrid columns="8">
+						
+		Name:
+		<p:inputText value="#{printerController.printerName}"
+		required="true" 
+		requiredMessage="Printer Name Cannot be Null!"
+								placeholder="Printer Name" />
+		
+		IP:
+		<p:inputText value="#{printerController.ip}"
+		required="true" 
+		requiredMessage="Printer IP Cannot be Null!"
+								placeholder="Printer IP Address" />
+								
+		Port:
+		<p:inputText value="#{printerController.port}"
+		required="true" 
+		requiredMessage="Printer Port Cannot be Null!"
+								placeholder="Printer Port" />
+								
+		Default:
+		<p:selectOneMenu value="#{printerController.default_ip}">
+								<f:selectItem itemLabel="Yes" itemValue="1" />
+								<f:selectItem itemLabel="No" itemValue="0" />
+								<p:ajax event="change" />
+							</p:selectOneMenu>
+								
+						</p:panelGrid>
+						<br />
+						<center>
+						<p:commandButton value="Save" action="#{printerController.save()}"
+							icon="fa fa-save" update="addressForm :messages addressForm" />
+						</center>
+					</h:form>
+				</b:container>
+
+			</b:jumbotron>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

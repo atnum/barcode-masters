@@ -17,7 +17,7 @@ public interface IPAddressRepository extends JpaRepository<IPAddress, Integer> {
 	String myBaseIp();
 
 	@Modifying
-	@Query(value = "update IPAddress i set i.USER_FLAG = ?1  where i.ip = ?2", nativeQuery = true)
+	@Query(value = "update IPAddress i set i.USER_FLAG = ?1 where i.ip = ?2", nativeQuery = true)
 	void setPrinterByUser(String user, String ip);
 
 	@Query(value = "select i.ip from ipaddress i where i.USER_FLAG = ?1  Order by 1 asc", nativeQuery = true)
@@ -25,5 +25,9 @@ public interface IPAddressRepository extends JpaRepository<IPAddress, Integer> {
 
 	@Query(value = "SELECT distinct f.port from IPAddress f where f.user_flag = ?1 and f.ip = ?2 Order by 1 asc", nativeQuery = true)
 	int portByUser(String user, String ip);
+	
+	@Modifying
+	@Query(value = "update IPAddress i set i.USER_FLAG = null where i.USER_FLAG = ?1", nativeQuery = true)
+	void setPrinterBeforeUse(String user);
 
 }
