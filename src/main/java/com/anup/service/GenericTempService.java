@@ -53,8 +53,8 @@ public class GenericTempService {
 	}
 
 	@Transactional
-	public void setPrinterByUser(String user, String ip) {
-		addressRepository.setPrinterByUser(user, ip);
+	public void setPrinterByUser(String user,String bType, String ip) {
+		addressRepository.setPrinterByUser(user, bType, ip);
 	}
 
 	public String findIPByUser(String user) {

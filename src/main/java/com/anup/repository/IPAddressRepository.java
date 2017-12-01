@@ -17,8 +17,8 @@ public interface IPAddressRepository extends JpaRepository<IPAddress, Integer> {
 	String myBaseIp();
 
 	@Modifying
-	@Query(value = "update IPAddress i set i.USER_FLAG = ?1 where i.ip = ?2", nativeQuery = true)
-	void setPrinterByUser(String user, String ip);
+	@Query(value = "update IPAddress i set i.USER_FLAG = ?1, i.barcode_type = ?2 where i.ip = ?3", nativeQuery = true)
+	void setPrinterByUser(String user, String barType, String ip);
 
 	@Query(value = "select i.ip from ipaddress i where i.USER_FLAG = ?1  Order by 1 asc", nativeQuery = true)
 	String ipByUser(String user);

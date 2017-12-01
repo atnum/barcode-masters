@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.anup.entity.PickDirective;
 
@@ -18,6 +19,7 @@ public interface PDRepository extends JpaRepository<PickDirective, String>{
 //	
 	@Modifying
 	@Query("update PickDirective u set u.LABELS_PRINTED_FLAG = 'Y' where u.PICK_TO_CONTAINER_ID = ?1")
+	@Transactional
 	void setPickDirectiveByContainer(String containerId);
 
 }

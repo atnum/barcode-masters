@@ -36,6 +36,9 @@ public class IPAddress {
 
 	@Column(name = "DEFAULT_IP")
 	private int default_ip;
+	
+	@Column(name = "BARCODE_TYPE")
+	private String barcodeType;
 
 	@Override
 	public String toString() {
