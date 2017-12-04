@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.anup.entity.IPAddress;
 import com.anup.entity.PickDirective;
 import com.anup.repository.FacilityRepository;
+import com.anup.repository.IPAddressRepository;
 import com.anup.repository.PDRepository;
 
 import fr.w3blog.zpl.model.ZebraUtils;
@@ -25,6 +26,9 @@ public class PDService {
 
 	@Autowired
 	private PDRepository repository;
+	
+	@Autowired
+	private IPAddressRepository ipr;
 
 	@Autowired
 	private GenericTempService genericTempService;
@@ -63,9 +67,9 @@ public class PDService {
 
 		port = 9100;
 
-		System.out.println("The IP address is :" + address);
+		System.out.println("The IP address and user is :" + address + "----" + ipr.defaultUser());
 
-		String zpl = service.getLabelType("Picking");
+		String zpl = service.getLabelType("Picking",ipr.defaultUser());
 
 		myList = getAllPicks();
 

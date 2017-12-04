@@ -1,11 +1,10 @@
 package com.anup.controller;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import com.anup.entity.IPAddress;
 import com.anup.service.GenericTempService;
@@ -13,17 +12,19 @@ import com.anup.service.GenericTempService;
 import lombok.Getter;
 import lombok.Setter;
 
-@Scope(value = "request")
-// Spring-specific annotation
-@Component
+//@Scope(value = "session")
+//// Spring-specific annotation
+//@Component
+@Named
 @Getter
 @Setter
+@ViewScoped
 public class PrinterController {
 
-	@Autowired
+	@Inject
 	private GenericTempService genericTempService;
 	
-	@Autowired
+	@Inject
 	GenericController gc;
 
 	private String printerName;

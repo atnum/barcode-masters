@@ -4,14 +4,13 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Random;
-
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import com.anup.entity.Product;
 import com.anup.entity.ProductTemp;
@@ -21,8 +20,8 @@ import com.anup.service.ProductTempService;
 import lombok.Getter;
 import lombok.Setter;
 
-@ManagedBean
-@SessionScoped
+@ViewScoped
+@Named
 @Getter
 @Setter
 public class ProductController implements Serializable {
@@ -32,10 +31,10 @@ public class ProductController implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@ManagedProperty("#{productService}")
+	@Inject
 	private ProductService productService;
 
-	@ManagedProperty("#{productTempService}")
+	@Inject
 	private ProductTempService productTempService;
 
 	private List<Product> products;
@@ -51,7 +50,7 @@ public class ProductController implements Serializable {
 	private int productId;
 
 	private int noOfQty;
-	
+
 	private static final int MASK = (-1) >>> 1;
 
 	@PostConstruct
@@ -113,11 +112,11 @@ public class ProductController implements Serializable {
 			if (productId != 0) {
 
 				for (int i = 0; i < noOfQty; i++) {
-					
+
 					Product p = productService.findById(productId);
-					
+
 					System.out.println(p);
-					
+
 					ProductTemp pt = new ProductTemp();
 					Random rand = new Random();
 					pt.setId(rand.nextInt() & MASK);
@@ -127,10 +126,10 @@ public class ProductController implements Serializable {
 					pt.setName(p.getName());
 					pt.setPrice(p.getPrice());
 					pt.setQty(p.getQty());
-					
+
 					productTempService.save(pt);
-					
-					System.out.println("I am Called " + i );
+
+					System.out.println("I am Called " + i);
 				}
 
 				products = productTempService.findAllByProductTemp();

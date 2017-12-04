@@ -1,21 +1,19 @@
 package com.anup.controller;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
+import javax.inject.Inject;
+import javax.inject.Named;
 import com.anup.entity.Barcodes;
 import com.anup.repository.BarcodesRepository;
+import com.anup.service.BarcodeService;
 
 import lombok.Getter;
 import lombok.Setter;
 
-@Scope(value = "view")
-// Spring-specific annotation
-@Component
+@ViewScoped
+@Named
 @Getter
 @Setter
 public class BarcodeController {
@@ -26,8 +24,11 @@ public class BarcodeController {
 
 	public String barcodeName;
 
-	@Autowired
+	@Inject
 	private BarcodesRepository barcodesRepository;
+	
+	@Inject
+	private BarcodeService service;
 
 	public void save() {
 
@@ -39,14 +40,34 @@ public class BarcodeController {
 		b.setBarcodeName(barcodeName);
 		b.setBarcodeValue(value);
 
-	if (barcodesRepository.getBarcodeName(barcodeName).isEmpty()) {	
-		barcodesRepository.save(b);
-	} else {
-		barcodesRepository.updateBarcodeValue(b.getBarcodeValue(), barcodeName, type);
-	}
-		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO, "Barcode Details Saved Successfully!", null));
+		if (!service.isBarcodeAvailable(b.getBarcodeName(), b.getBarcodeType())) {
+			
+			System.out.println("Inside True Part");
+			
+			barcodesRepository.save(b);
+			
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Barcode Details Saved Successfully!", null));
+			
+		} else {
+			
+			System.out.println("Inside False Part");
+			
+			barcodesRepository.updateBarcodeValue(b.getBarcodeValue(), b.getBarcodeName(), b.getBarcodeType());
+		
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Barcode Details Updated Successfully!", null));
+			
+		};
+		
 
+	}
+
+	public void delete() {
+		Barcodes b = barcodesRepository.getBarcodeValues(barcodeName, type);
+		service.delete(b);
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Barcode Details Deleted Successfully!", null));
 	}
 
 }

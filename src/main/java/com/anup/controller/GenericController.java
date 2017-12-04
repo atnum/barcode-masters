@@ -3,14 +3,13 @@ package com.anup.controller;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
-
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import com.anup.entity.ASN;
 import com.anup.entity.Facility;
@@ -19,7 +18,6 @@ import com.anup.entity.GenericTemp;
 import com.anup.entity.IPAddress;
 import com.anup.entity.PickDirective;
 import com.anup.repository.AsnRepository;
-import com.anup.repository.BarcodesRepository;
 import com.anup.repository.PDRepository;
 import com.anup.service.BarcodeService;
 import com.anup.service.GenericService;
@@ -29,11 +27,8 @@ import fr.w3blog.zpl.model.ZebraUtils;
 import lombok.Getter;
 import lombok.Setter;
 
-//@ManagedBean
-//@SessionScoped
-@Scope(value = "session")
-// Spring-specific annotation
-@Component
+@ViewScoped
+@Named
 @Getter
 @Setter
 public class GenericController implements Serializable {
@@ -44,17 +39,17 @@ public class GenericController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	// @ManagedProperty("#{genericService}")
-	@Autowired
+	@Inject
 	private GenericService genericService;
 
 	// @ManagedProperty("#{genericTempService}")
-	@Autowired
+	@Inject
 	private GenericTempService genericTempService;
-	
-	@Autowired
+
+	@Inject
 	private BarcodeService service;
 
-	@Autowired
+	@Inject
 	private PDRepository repository;
 
 	private List<PickDirective> myList;
@@ -96,7 +91,7 @@ public class GenericController implements Serializable {
 
 	public int port;
 
-	@Autowired
+	@Inject
 	private AsnRepository asnRepository;
 
 	private String asn;
@@ -244,9 +239,9 @@ public class GenericController implements Serializable {
 		// ---------------------Main
 		// Logic----------------------------------------
 		if (genericService.isContainerExist(generic.getContainerId()) == null) {
-		
-			String s1 = service.getLabelType("Generic");
-			
+
+			String s1 = service.getLabelType("Generic", username.toLowerCase());
+
 			s1 = s1.replace("$$CONT", generic.getContainerId());
 
 			System.out.println(s1);
@@ -344,15 +339,15 @@ public class GenericController implements Serializable {
 				GenericTemp gt = new GenericTemp();
 				gt.setContainerId(g.getContainerId());
 				gt.setFacilityId(g.getFacilityId());
-				
+
 				System.out.println("The Container id are : " + gt.getContainerId());
 
-				String s1 = service.getLabelType("Generic");
-				
+				String s1 = service.getLabelType("Generic",username.toLowerCase());
+
 				s1 = s1.replace("$$CONT", gt.getContainerId());
 
 				System.out.println(s1);
-				
+
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 						"Printing Started for Container (" + gt.getContainerId() + " !)", null));
 
@@ -442,8 +437,8 @@ public class GenericController implements Serializable {
 
 		for (ASN n : asnList) {
 
-			String s1 = service.getLabelType("ASN");
-			
+			String s1 = service.getLabelType("ASN",username.toLowerCase());
+
 			s1 = s1.replace("$$CONT", n.getContainer_id());
 
 			s1 = s1.replace("$$ASN", n.getAsn_nbr());
@@ -493,8 +488,8 @@ public class GenericController implements Serializable {
 		// Logic----------------------------------------
 		if (genericService.isContainerExist(generic.getContainerId()) != null) {
 
-			String s1 = service.getLabelType("Generic");
-			
+			String s1 = service.getLabelType("Generic",username.toLowerCase());
+
 			s1 = s1.replace("$$CONT", generic.getContainerId());
 
 			System.out.println(s1);
@@ -530,8 +525,8 @@ public class GenericController implements Serializable {
 		}
 
 		asnList = asnRepository.findAllAsn(asn);
-		
-		String s1 = service.getLabelType("ASN");
+
+		String s1 = service.getLabelType("ASN",username.toLowerCase());
 
 		for (ASN n : asnList) {
 

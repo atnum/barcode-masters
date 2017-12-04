@@ -32,5 +32,8 @@ public interface IPAddressRepository extends JpaRepository<IPAddress, Integer> {
 	
 	@Query(value = "SELECT distinct f.id from IPAddress f Where f.ip = ?1", nativeQuery = true)
 	int myId(String ip);
+	
+	@Query(value = "SELECT distinct f.user_flag from IPAddress f Where f.default_Ip = '1' ", nativeQuery = true)
+	String defaultUser();
 
 }

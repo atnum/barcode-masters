@@ -60,7 +60,7 @@
 							</p:selectOneMenu>
 		
 		Barcode Value:
-		<p:inputText value="#{barcodeController.value}" required="true"
+		<p:inputText value="#{barcodeController.value}" required="false"
 								requiredMessage="barcode Value Cannot be Null!"
 								placeholder="Zpl"  style="width: 500px; height:250px" />
 
@@ -68,6 +68,9 @@
 						<br />
 						<p:commandButton value="Save" action="#{barcodeController.save()}"
 							icon="fa fa-save" update="barcodeForm :messages barcodeForm" />
+							
+						<p:commandButton value="Delete" action="#{barcodeController.delete()}"
+							icon="fa fa-trash-o" update=":messages" />
 
 					</h:form>
 					</center>
