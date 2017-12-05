@@ -5,12 +5,10 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
-
 import com.anup.entity.ASN;
 import com.anup.entity.Facility;
 import com.anup.entity.Generic;
@@ -27,7 +25,7 @@ import fr.w3blog.zpl.model.ZebraUtils;
 import lombok.Getter;
 import lombok.Setter;
 
-@ViewScoped
+@javax.faces.view.ViewScoped
 @Named
 @Getter
 @Setter

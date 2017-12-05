@@ -39,9 +39,19 @@
 					</b:navLink>
 					<b:navLink></b:navLink>
 				</b:dropMenu>
-				<b:navLink value="Settings"
-					href="#{request.contextPath}/zebra/settings.jsf"
-					iconAwesome="fa-cog" iconAlign="right"></b:navLink>
+				<b:dropMenu value="Settings" iconAwesome="fa-cog" iconAlign="right">
+					<b:navLink value="Printer Setup"
+						href="#{request.contextPath}/zebra/settings.jsf" icon-awesome="fa-print" icon-align="right"/>
+					<b:navLink></b:navLink>
+					<b:navLink header="Create Section"></b:navLink>
+					<b:navLink value="Create User"
+						href="#{request.contextPath}/register.jsf" iconAwesome="fa-user-plus" icon-align="right" />
+					<b:navLink value="Create Printer"
+						href="#{request.contextPath}/zebra/createPrinter.jsf" iconAwesome="fa-print" icon-align="right" />
+					<b:navLink value="Create/Update Barcodes"
+						href="#{request.contextPath}/zebra/updateBarcodes.jsf" iconAwesome="fa-barcode" icon-align="right" />
+					<b:navLink></b:navLink>
+				</b:dropMenu>
 			</b:navbarLinks>
 		</b:navBar>
 
