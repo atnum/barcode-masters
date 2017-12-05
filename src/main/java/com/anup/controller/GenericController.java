@@ -115,7 +115,7 @@ public class GenericController implements Serializable {
 
 		addresses = genericTempService.getAllAddress();
 
-		System.out.println("The IP Address is: " + ip);
+		System.out.println("The IP Address inside init() is: " + ip);
 
 		asnList = asnRepository.findAllAsn(myASN);
 

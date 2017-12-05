@@ -58,14 +58,14 @@ public class PDService {
 
 	}
 
-	@PostConstruct
-	@Scheduled(fixedDelay = 60000)
+	//@PostConstruct
+	@Scheduled(initialDelay =1200000, fixedDelay = 1200000)
 	@Transactional
 	public void init() {
 
 		address = gts.getAllDefIp();
 
-		port = 9100;
+		port = gts.getAllDefPort();
 
 		System.out.println("The IP address and user is :" + address + "----" + ipr.defaultUser());
 

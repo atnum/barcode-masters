@@ -33,6 +33,10 @@ public class GenericTempService {
 	public String getAllDefIp() {
 		return addressRepository.myBaseIp();
 	}
+	
+	public int getAllDefPort() {
+		return addressRepository.defaultPort();
+	}
 
 	public List<Generic> findAllByGenericTemp() {
 		return genericRepository.findAllGenericTempByDesc();
