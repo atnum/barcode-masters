@@ -7,6 +7,10 @@ DROP SEQUENCE hibernate_sequence;
 
 CREATE SEQUENCE hibernate_sequence INCREMENT BY 1 START WITH 1 MAXVALUE 99999999999999999 NOCACHE ORDER;
 
+DROP SEQUENCE a1_seq;
+
+CREATE SEQUENCE a1_seq INCREMENT BY 1 START WITH 1 MAXVALUE 99999999999999999 NOCACHE ORDER;
+
 DROP TABLE XX_GENERIC_LABELS;
 
 CREATE TABLE XX_GENERIC_LABELS
@@ -81,12 +85,62 @@ CREATE TABLE USERS
 	"USER_NAME" VARCHAR2(50 CHAR) NOT NULL ENABLE, 
 	 PRIMARY KEY ("USER_ID"));
 
+--create or replace view asn_view as
+--SELECT
+--    a.asn_nbr,
+--    c.container_id,
+--    a.po_nbr,
+--    a.appt_nbr,
+--    a.dest_id,
+--    a.item_id,
+--    a.unit_qty,
+--    a.rcvd_unit_qty
+--FROM
+--    container c,
+--    asn_item a,
+--    container_item ci
+--WHERE
+--    c.po_nbr IS NOT NULL
+--    AND   c.location_id IS NULL
+--    AND   c.container_status = 'A'
+--    AND   c.container_id = ci.container_id
+--    AND   c.facility_id = ci.facility_id
+--    AND   ci.item_id = a.item_id
+--    AND   ci.distro_nbr = a.distro_nbr
+--    AND   ci.facility_id = a.facility_id
+--    AND   a.po_nbr = c.po_nbr
+--    AND   a.facility_id = c.facility_id
+--    AND   a.appt_nbr = nvl(c.appt_nbr,0)
+--    AND   a.dest_id = c.dest_id;
+
 create or replace view asn_view as
-select distinct a.asn_nbr, c.container_id, a.po_nbr,a.appt_nbr, a.dest_id,a.item_id, a.unit_qty, a.rcvd_unit_qty from container c, asn_item a, asn s where a.po_nbr = c.po_nbr
-and a.unit_qty <> a.rcvd_unit_qty
-and a.asn_nbr = s.asn_nbr
-and c.container_status = 'A'
-and c.dest_id = a.dest_id;
+SELECT
+    a.asn_nbr,
+    c.container_id,
+    a.po_nbr,
+    a.appt_nbr,
+    a.dest_id,
+    a.item_id,
+    a.unit_qty,
+    a.rcvd_unit_qty
+FROM
+    container c,
+    asn_item a,
+    container_item ci
+WHERE
+    c.po_nbr IS NOT NULL
+    AND   c.location_id IS NULL
+    AND   c.container_status = 'A'
+    AND   c.container_id = ci.container_id
+    AND   c.facility_id = ci.facility_id
+    AND   ci.item_id = a.item_id
+    AND   ci.distro_nbr = a.distro_nbr
+    AND   ci.facility_id = a.facility_id
+    AND   a.po_nbr = c.po_nbr
+    AND   a.facility_id = c.facility_id
+    AND   a.appt_nbr <> 0 
+    AND   a.rcvd_unit_qty = 0
+    AND   a.dest_id = c.dest_id;
 
 
 DROP TABLE BARCODES;

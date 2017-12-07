@@ -56,7 +56,8 @@
 						</center>
 						<p:dataTable id="asnTable" var="generic" styleClass="myTable"
 							value="#{genericController.asnList}" paginator="true" rows="4"
-							editable="true" reflow="true">
+							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							editable="true" reflow="true" rowsPerPageTemplate="5,10,15">
 
 							<p:column headerText="ASN">
 								<h:outputText value="#{generic.asn_nbr}"
@@ -98,14 +99,14 @@
 								<h:outputText value="#{generic.rcvd_unit_qty}"
 									filterMatchMode="contains" />
 							</p:column>
-							
+
 							<p:column headerText="Print">
-							<h:form>
-								<p:commandButton value="Print Me"
-									action="#{genericController.printASN(generic.asn_nbr)}">
-								</p:commandButton>
-							</h:form>
-						</p:column>
+								<h:form>
+									<p:commandButton value="Print Me"
+										action="#{genericController.printASN(generic.asn_nbr)}">
+									</p:commandButton>
+								</h:form>
+							</p:column>
 
 						</p:dataTable>
 						<input type="hidden" name="${_csrf.parameterName}"

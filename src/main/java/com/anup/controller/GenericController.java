@@ -3,12 +3,16 @@ package com.anup.controller;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
-import javax.inject.Inject;
-import javax.inject.Named;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import com.anup.entity.ASN;
 import com.anup.entity.Facility;
 import com.anup.entity.Generic;
@@ -25,8 +29,8 @@ import fr.w3blog.zpl.model.ZebraUtils;
 import lombok.Getter;
 import lombok.Setter;
 
-@javax.faces.view.ViewScoped
-@Named
+@Scope(value = "session")
+@Component
 @Getter
 @Setter
 public class GenericController implements Serializable {
@@ -37,17 +41,17 @@ public class GenericController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	// @ManagedProperty("#{genericService}")
-	@Inject
+	@Autowired
 	private GenericService genericService;
 
 	// @ManagedProperty("#{genericTempService}")
-	@Inject
+	@Autowired
 	private GenericTempService genericTempService;
 
-	@Inject
+	@Autowired
 	private BarcodeService service;
 
-	@Inject
+	@Autowired
 	private PDRepository repository;
 
 	private List<PickDirective> myList;
@@ -89,7 +93,7 @@ public class GenericController implements Serializable {
 
 	public int port;
 
-	@Inject
+	@Autowired
 	private AsnRepository asnRepository;
 
 	private String asn;
@@ -101,6 +105,8 @@ public class GenericController implements Serializable {
 	private String newASN;
 
 	String myASN = "";
+
+	private String uname;
 
 	public GenericController() {
 		barcodeType = "code128";
@@ -117,7 +123,7 @@ public class GenericController implements Serializable {
 
 		System.out.println("The IP Address inside init() is: " + ip);
 
-		asnList = asnRepository.findAllAsn(myASN);
+		// asnList = asnRepository.findAllAsn(myASN); //(Slower Login Bug)
 
 		// myList = repository.findAllByDesc();
 
@@ -125,6 +131,8 @@ public class GenericController implements Serializable {
 
 		// GETTING THE CURRENT USERNAME
 		username = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
+
+		uname = username;
 
 		// Converting into CamelCase using custom code
 		username = toCamelCase(username);
@@ -135,14 +143,14 @@ public class GenericController implements Serializable {
 
 		this.ip = ip;
 
-		genericTempService.updateUserForPrinter(username.toLowerCase());
+		genericTempService.updateUserForPrinter(uname.toLowerCase());
 
-		genericTempService.setPrinterByUser(username.toLowerCase(), barcodeType, ip);
+		genericTempService.setPrinterByUser(uname.toLowerCase(), barcodeType, ip);
 
-		System.out.println(ip + "---" + username);
+		System.out.println(ip + "---" + uname);
 
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-				"IP Address " + ip + " has been set for the Username " + username + " with the printer Successfully!",
+				"IP Address " + ip + " has been set for the Username " + uname + " with the printer Successfully!",
 				null));
 
 		addresses = genericTempService.getAllAddress();
@@ -221,15 +229,15 @@ public class GenericController implements Serializable {
 
 	public void save() {
 		try {
-			ip = genericTempService.findIPByUser(username.toLowerCase());
+			ip = genericTempService.findIPByUser(uname.toLowerCase());
 
-			port = genericTempService.findPortByUser(username.toLowerCase(), ip);
+			port = genericTempService.findPortByUser(uname.toLowerCase(), ip);
 
-			System.out.println("The IP for the Username " + username + " is " + ip);
+			System.out.println("The IP for the Username " + uname + " is " + ip);
 
-			System.out.println("The Port for the Username " + username + " is " + port);
+			System.out.println("The Port for the Username " + uname + " is " + port);
 		} catch (Exception e) {
-			System.out.println("Its null " + username.toLowerCase());
+			System.out.println("Its null " + uname.toLowerCase());
 		}
 		genericTempService.deleteAll();
 
@@ -238,7 +246,7 @@ public class GenericController implements Serializable {
 		// Logic----------------------------------------
 		if (genericService.isContainerExist(generic.getContainerId()) == null) {
 
-			String s1 = service.getLabelType("Generic", username.toLowerCase());
+			String s1 = service.getLabelType("Generic", uname.toLowerCase());
 
 			s1 = s1.replace("$$CONT", generic.getContainerId());
 
@@ -309,18 +317,18 @@ public class GenericController implements Serializable {
 	// Batch Save of Containers
 	public void saveBatch() {
 
-		ip = genericTempService.findIPByUser(username.toLowerCase());
+		ip = genericTempService.findIPByUser(uname.toLowerCase());
 
 		try {
-			ip = genericTempService.findIPByUser(username.toLowerCase());
+			ip = genericTempService.findIPByUser(uname.toLowerCase());
 
-			port = genericTempService.findPortByUser(username.toLowerCase(), ip);
+			port = genericTempService.findPortByUser(uname.toLowerCase(), ip);
 
-			System.out.println("The IP for the Username " + username + " is " + ip);
+			System.out.println("The IP for the Username " + uname + " is " + ip);
 
-			System.out.println("The Port for the Username " + username + " is " + port);
+			System.out.println("The Port for the Username " + uname + " is " + port);
 		} catch (Exception e) {
-			System.out.println("Its null " + username.toLowerCase());
+			System.out.println("Its null " + uname.toLowerCase());
 		}
 		genericTempService.deleteAll();
 
@@ -340,7 +348,7 @@ public class GenericController implements Serializable {
 
 				System.out.println("The Container id are : " + gt.getContainerId());
 
-				String s1 = service.getLabelType("Generic",username.toLowerCase());
+				String s1 = service.getLabelType("Generic", uname.toLowerCase());
 
 				s1 = s1.replace("$$CONT", gt.getContainerId());
 
@@ -422,20 +430,20 @@ public class GenericController implements Serializable {
 	public void printASN() {
 
 		try {
-			ip = genericTempService.findIPByUser(username.toLowerCase());
+			ip = genericTempService.findIPByUser(uname.toLowerCase());
 
-			port = genericTempService.findPortByUser(username.toLowerCase(), ip);
+			port = genericTempService.findPortByUser(uname.toLowerCase(), ip);
 
-			System.out.println("The IP for the Username " + username + " is " + ip);
+			System.out.println("The IP for the Username " + uname + " is " + ip);
 
-			System.out.println("The Port for the Username " + username + " is " + port);
+			System.out.println("The Port for the Username " + uname + " is " + port);
 		} catch (Exception e) {
-			System.out.println("Its null " + username.toLowerCase());
+			System.out.println("Its null " + uname.toLowerCase());
 		}
 
 		for (ASN n : asnList) {
 
-			String s1 = service.getLabelType("ASN",username.toLowerCase());
+			String s1 = service.getLabelType("ASN", uname.toLowerCase());
 
 			s1 = s1.replace("$$CONT", n.getContainer_id());
 
@@ -469,15 +477,15 @@ public class GenericController implements Serializable {
 		System.out.println("I am clicked bro...!!!");
 
 		try {
-			ip = genericTempService.findIPByUser(username.toLowerCase());
+			ip = genericTempService.findIPByUser(uname.toLowerCase());
 
-			port = genericTempService.findPortByUser(username.toLowerCase(), ip);
+			port = genericTempService.findPortByUser(uname.toLowerCase(), ip);
 
-			System.out.println("The IP for the Username " + username + " is " + ip);
+			System.out.println("The IP for the Username " + uname + " is " + ip);
 
-			System.out.println("The Port for the Username " + username + " is " + port);
+			System.out.println("The Port for the Username " + uname + " is " + port);
 		} catch (Exception e) {
-			System.out.println("Its null " + username.toLowerCase());
+			System.out.println("Its null " + uname.toLowerCase());
 		}
 		genericTempService.deleteAll();
 
@@ -486,7 +494,7 @@ public class GenericController implements Serializable {
 		// Logic----------------------------------------
 		if (genericService.isContainerExist(generic.getContainerId()) != null) {
 
-			String s1 = service.getLabelType("Generic",username.toLowerCase());
+			String s1 = service.getLabelType("Generic", uname.toLowerCase());
 
 			s1 = s1.replace("$$CONT", generic.getContainerId());
 
@@ -511,20 +519,20 @@ public class GenericController implements Serializable {
 	public void printASN(String asn) {
 
 		try {
-			ip = genericTempService.findIPByUser(username.toLowerCase());
+			ip = genericTempService.findIPByUser(uname.toLowerCase());
 
-			port = genericTempService.findPortByUser(username.toLowerCase(), ip);
+			port = genericTempService.findPortByUser(uname.toLowerCase(), ip);
 
-			System.out.println("The IP for the Username " + username + " is " + ip);
+			System.out.println("The IP for the Username " + uname + " is " + ip);
 
-			System.out.println("The Port for the Username " + username + " is " + port);
+			System.out.println("The Port for the Username " + uname + " is " + port);
 		} catch (Exception e) {
-			System.out.println("Its null " + username.toLowerCase());
+			System.out.println("Its null " + uname.toLowerCase());
 		}
 
 		asnList = asnRepository.findAllAsn(asn);
 
-		String s1 = service.getLabelType("ASN",username.toLowerCase());
+		String s1 = service.getLabelType("ASN", uname.toLowerCase());
 
 		for (ASN n : asnList) {
 

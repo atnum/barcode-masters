@@ -1,10 +1,12 @@
 package com.anup.controller;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-import javax.inject.Named;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import com.anup.entity.Barcodes;
 import com.anup.repository.BarcodesRepository;
 import com.anup.service.BarcodeService;
@@ -12,8 +14,8 @@ import com.anup.service.BarcodeService;
 import lombok.Getter;
 import lombok.Setter;
 
-@SessionScoped
-@Named
+@Scope(value="session")
+@Component
 @Getter
 @Setter
 public class BarcodeController {
@@ -24,10 +26,10 @@ public class BarcodeController {
 
 	public String barcodeName;
 
-	@Inject
+	@Autowired
 	private BarcodesRepository barcodesRepository;
 
-	@Inject
+	@Autowired
 	private BarcodeService service;
 
 	public void save() {

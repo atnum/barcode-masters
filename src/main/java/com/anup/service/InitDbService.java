@@ -132,7 +132,7 @@ public class InitDbService {
 		br.save(b1);
 		
 		Barcodes b2 = new Barcodes();
-		b2.setBarcodeName("Generic");
+		b2.setBarcodeName("ASN");
 		b2.setBarcodeType("code128");
 		b2.setBarcodeValue("^XA~TA000~JSN^LT0^MNW^MTT^PON^PMN^LH0,0^JMA^PR6,6~SD15^JUS^LRN^CI0^XZ\r\n" + 
 				"^XA\r\n" + 
